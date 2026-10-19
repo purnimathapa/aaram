@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Create your AARAM account{% endblock %}
+
+{% block content %}
+<section class="auth">
+  <h1 class="page-title">Create your account</h1>
+  <form class="form" method="post" novalidate>
+    {% csrf_token %}
+    {% include "partials/form_fields.html" %}
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">Create account</button>
+    </div>
+  </form>
+  <p class="auth-alt">Already have an account? <a href="{% url 'accounts:login' %}">Log in</a></p>
+</section>
+{% endblock %}
