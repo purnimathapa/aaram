@@ -1,0 +1,802 @@
+[
+  {
+    "model": "catalog.size",
+    "pk": 1,
+    "fields": {
+      "name": "Single",
+      "length_in": 72,
+      "width_in": 36,
+      "sort_order": 1
+    }
+  },
+  {
+    "model": "catalog.size",
+    "pk": 2,
+    "fields": {
+      "name": "Double",
+      "length_in": 72,
+      "width_in": 48,
+      "sort_order": 2
+    }
+  },
+  {
+    "model": "catalog.size",
+    "pk": 3,
+    "fields": {
+      "name": "Queen",
+      "length_in": 75,
+      "width_in": 60,
+      "sort_order": 3
+    }
+  },
+  {
+    "model": "catalog.size",
+    "pk": 4,
+    "fields": {
+      "name": "King",
+      "length_in": 78,
+      "width_in": 72,
+      "sort_order": 4
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+      "name": "Memory foam",
+      "slug": "memory-foam",
+      "is_active": true,
+      "sort_order": 1,
+      "tagline": "Soft and body-hugging, eases pressure on shoulders and hips.",
+      "comfort_color": "#E3D3B8",
+      "core_color": "#C9B28A"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+      "name": "Orthopedic",
+      "slug": "orthopedic",
+      "is_active": true,
+      "sort_order": 2,
+      "tagline": "Firm, even support for people with back pain.",
+      "comfort_color": "#D7DCE3",
+      "core_color": "#A9B4C2"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+      "name": "Latex",
+      "slug": "latex",
+      "is_active": true,
+      "sort_order": 3,
+      "tagline": "Springy and breathable, stays cool in summer.",
+      "comfort_color": "#E8E1C4",
+      "core_color": "#CFC08E"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 4,
+    "fields": {
+      "name": "Pocket spring",
+      "slug": "pocket-spring",
+      "is_active": true,
+      "sort_order": 4,
+      "tagline": "Classic bounce with good airflow and edge support.",
+      "comfort_color": "#E6D6CC",
+      "core_color": "#C7A894"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+      "category": 1,
+      "name": "AARAM Nidra",
+      "slug": "aaram-nidra",
+      "description": "A soft, body-hugging mattress that eases pressure on shoulders and hips. Good for side sleepers.",
+      "material": "Quilted knit cover over a memory foam comfort layer and a high-density PU support core.",
+      "firmness": 2,
+      "warranty_months": 60,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+      "category": 1,
+      "name": "AARAM Sukha",
+      "slug": "aaram-sukha",
+      "description": "A medium memory foam mattress that balances softness with support for most sleepers.",
+      "material": "Breathable knit cover over dual memory foam layers on a foam base.",
+      "firmness": 3,
+      "warranty_months": 60,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+      "category": 2,
+      "name": "AARAM Himal Ortho",
+      "slug": "aaram-himal-ortho",
+      "description": "A firm orthopedic mattress built for even back support. Suits back and stomach sleepers.",
+      "material": "Firm high-density foam core under a quilted cover.",
+      "firmness": 5,
+      "warranty_months": 84,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+      "category": 2,
+      "name": "AARAM Prithvi Ortho",
+      "slug": "aaram-prithvi-ortho",
+      "description": "A medium-firm orthopedic mattress for steady back support without feeling hard.",
+      "material": "Bonded foam support core with a medium-firm comfort layer.",
+      "firmness": 4,
+      "warranty_months": 84,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 5,
+    "fields": {
+      "category": 3,
+      "name": "AARAM Sheetal Latex",
+      "slug": "aaram-sheetal-latex",
+      "description": "A springy, breathable latex mattress that stays cool through the summer.",
+      "material": "Natural latex comfort layer over a supportive foam base.",
+      "firmness": 3,
+      "warranty_months": 72,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 6,
+    "fields": {
+      "category": 4,
+      "name": "AARAM Basera Spring",
+      "slug": "aaram-basera-spring",
+      "description": "A medium-firm pocket spring mattress with good airflow and edge support.",
+      "material": "Individually pocketed springs under a foam comfort layer.",
+      "firmness": 4,
+      "warranty_months": 72,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 1,
+    "fields": {
+      "product": 1,
+      "size": 1,
+      "thickness_in": 6,
+      "sku": "AR-NID-S6",
+      "price": "18500.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 2,
+    "fields": {
+      "product": 1,
+      "size": 1,
+      "thickness_in": 8,
+      "sku": "AR-NID-S8",
+      "price": "23500.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 3,
+    "fields": {
+      "product": 1,
+      "size": 2,
+      "thickness_in": 6,
+      "sku": "AR-NID-D6",
+      "price": "24500.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 4,
+    "fields": {
+      "product": 1,
+      "size": 2,
+      "thickness_in": 8,
+      "sku": "AR-NID-D8",
+      "price": "30500.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 5,
+    "fields": {
+      "product": 1,
+      "size": 3,
+      "thickness_in": 6,
+      "sku": "AR-NID-Q6",
+      "price": "29500.00",
+      "stock_qty": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 6,
+    "fields": {
+      "product": 1,
+      "size": 3,
+      "thickness_in": 8,
+      "sku": "AR-NID-Q8",
+      "price": "36500.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 7,
+    "fields": {
+      "product": 1,
+      "size": 4,
+      "thickness_in": 6,
+      "sku": "AR-NID-K6",
+      "price": "34500.00",
+      "stock_qty": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 8,
+    "fields": {
+      "product": 1,
+      "size": 4,
+      "thickness_in": 8,
+      "sku": "AR-NID-K8",
+      "price": "42500.00",
+      "stock_qty": 3,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 9,
+    "fields": {
+      "product": 2,
+      "size": 1,
+      "thickness_in": 6,
+      "sku": "AR-SUK-S6",
+      "price": "17600.00",
+      "stock_qty": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 10,
+    "fields": {
+      "product": 2,
+      "size": 1,
+      "thickness_in": 8,
+      "sku": "AR-SUK-S8",
+      "price": "22300.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 11,
+    "fields": {
+      "product": 2,
+      "size": 2,
+      "thickness_in": 6,
+      "sku": "AR-SUK-D6",
+      "price": "23300.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 12,
+    "fields": {
+      "product": 2,
+      "size": 2,
+      "thickness_in": 8,
+      "sku": "AR-SUK-D8",
+      "price": "29000.00",
+      "stock_qty": 1,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 13,
+    "fields": {
+      "product": 2,
+      "size": 3,
+      "thickness_in": 6,
+      "sku": "AR-SUK-Q6",
+      "price": "28000.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 14,
+    "fields": {
+      "product": 2,
+      "size": 3,
+      "thickness_in": 8,
+      "sku": "AR-SUK-Q8",
+      "price": "34700.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 15,
+    "fields": {
+      "product": 2,
+      "size": 4,
+      "thickness_in": 6,
+      "sku": "AR-SUK-K6",
+      "price": "32800.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 16,
+    "fields": {
+      "product": 2,
+      "size": 4,
+      "thickness_in": 8,
+      "sku": "AR-SUK-K8",
+      "price": "40400.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 17,
+    "fields": {
+      "product": 3,
+      "size": 1,
+      "thickness_in": 6,
+      "sku": "AR-HIM-S6",
+      "price": "20700.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 18,
+    "fields": {
+      "product": 3,
+      "size": 1,
+      "thickness_in": 8,
+      "sku": "AR-HIM-S8",
+      "price": "26300.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 19,
+    "fields": {
+      "product": 3,
+      "size": 2,
+      "thickness_in": 6,
+      "sku": "AR-HIM-D6",
+      "price": "27400.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 20,
+    "fields": {
+      "product": 3,
+      "size": 2,
+      "thickness_in": 8,
+      "sku": "AR-HIM-D8",
+      "price": "34200.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 21,
+    "fields": {
+      "product": 3,
+      "size": 3,
+      "thickness_in": 6,
+      "sku": "AR-HIM-Q6",
+      "price": "33000.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 22,
+    "fields": {
+      "product": 3,
+      "size": 3,
+      "thickness_in": 8,
+      "sku": "AR-HIM-Q8",
+      "price": "40900.00",
+      "stock_qty": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 23,
+    "fields": {
+      "product": 3,
+      "size": 4,
+      "thickness_in": 6,
+      "sku": "AR-HIM-K6",
+      "price": "38600.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 24,
+    "fields": {
+      "product": 3,
+      "size": 4,
+      "thickness_in": 8,
+      "sku": "AR-HIM-K8",
+      "price": "47600.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 25,
+    "fields": {
+      "product": 4,
+      "size": 1,
+      "thickness_in": 6,
+      "sku": "AR-PRI-S6",
+      "price": "19400.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 26,
+    "fields": {
+      "product": 4,
+      "size": 1,
+      "thickness_in": 8,
+      "sku": "AR-PRI-S8",
+      "price": "24700.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 27,
+    "fields": {
+      "product": 4,
+      "size": 2,
+      "thickness_in": 6,
+      "sku": "AR-PRI-D6",
+      "price": "25700.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 28,
+    "fields": {
+      "product": 4,
+      "size": 2,
+      "thickness_in": 8,
+      "sku": "AR-PRI-D8",
+      "price": "32000.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 29,
+    "fields": {
+      "product": 4,
+      "size": 3,
+      "thickness_in": 6,
+      "sku": "AR-PRI-Q6",
+      "price": "31000.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 30,
+    "fields": {
+      "product": 4,
+      "size": 3,
+      "thickness_in": 8,
+      "sku": "AR-PRI-Q8",
+      "price": "38300.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 31,
+    "fields": {
+      "product": 4,
+      "size": 4,
+      "thickness_in": 6,
+      "sku": "AR-PRI-K6",
+      "price": "36200.00",
+      "stock_qty": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 32,
+    "fields": {
+      "product": 4,
+      "size": 4,
+      "thickness_in": 8,
+      "sku": "AR-PRI-K8",
+      "price": "44600.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 33,
+    "fields": {
+      "product": 5,
+      "size": 1,
+      "thickness_in": 6,
+      "sku": "AR-SHE-S6",
+      "price": "30700.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 34,
+    "fields": {
+      "product": 5,
+      "size": 1,
+      "thickness_in": 8,
+      "sku": "AR-SHE-S8",
+      "price": "39000.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 35,
+    "fields": {
+      "product": 5,
+      "size": 2,
+      "thickness_in": 6,
+      "sku": "AR-SHE-D6",
+      "price": "40700.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 36,
+    "fields": {
+      "product": 5,
+      "size": 2,
+      "thickness_in": 8,
+      "sku": "AR-SHE-D8",
+      "price": "50600.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 37,
+    "fields": {
+      "product": 5,
+      "size": 3,
+      "thickness_in": 6,
+      "sku": "AR-SHE-Q6",
+      "price": "49000.00",
+      "stock_qty": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 38,
+    "fields": {
+      "product": 5,
+      "size": 3,
+      "thickness_in": 8,
+      "sku": "AR-SHE-Q8",
+      "price": "60600.00",
+      "stock_qty": 1,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 39,
+    "fields": {
+      "product": 5,
+      "size": 4,
+      "thickness_in": 6,
+      "sku": "AR-SHE-K6",
+      "price": "57300.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 40,
+    "fields": {
+      "product": 5,
+      "size": 4,
+      "thickness_in": 8,
+      "sku": "AR-SHE-K8",
+      "price": "70600.00",
+      "stock_qty": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 41,
+    "fields": {
+      "product": 6,
+      "size": 1,
+      "thickness_in": 6,
+      "sku": "AR-BAS-S6",
+      "price": "25900.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 42,
+    "fields": {
+      "product": 6,
+      "size": 1,
+      "thickness_in": 8,
+      "sku": "AR-BAS-S8",
+      "price": "32900.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 43,
+    "fields": {
+      "product": 6,
+      "size": 2,
+      "thickness_in": 6,
+      "sku": "AR-BAS-D6",
+      "price": "34300.00",
+      "stock_qty": 3,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 44,
+    "fields": {
+      "product": 6,
+      "size": 2,
+      "thickness_in": 8,
+      "sku": "AR-BAS-D8",
+      "price": "42700.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 45,
+    "fields": {
+      "product": 6,
+      "size": 3,
+      "thickness_in": 6,
+      "sku": "AR-BAS-Q6",
+      "price": "41300.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 46,
+    "fields": {
+      "product": 6,
+      "size": 3,
+      "thickness_in": 8,
+      "sku": "AR-BAS-Q8",
+      "price": "51100.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 47,
+    "fields": {
+      "product": 6,
+      "size": 4,
+      "thickness_in": 6,
+      "sku": "AR-BAS-K6",
+      "price": "48300.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 48,
+    "fields": {
+      "product": 6,
+      "size": 4,
+      "thickness_in": 8,
+      "sku": "AR-BAS-K8",
+      "price": "59500.00",
+      "stock_qty": 8,
+      "is_active": true
+    }
+  }
+]
