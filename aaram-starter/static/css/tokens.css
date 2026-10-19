@@ -1,0 +1,51 @@
+/* Design tokens for AARAM. Custom properties only; see docs/DESIGN.md. */
+:root {
+  /* Surfaces and lines */
+  --bg: #F6F1E9;
+  --surface: #FFFDF8;
+  --surface-2: #EDE4D6;
+  --line: #E4DACB;
+  --line-strong: #D9CCB8;
+
+  /* Text */
+  --ink: #24201C;
+  --muted: #5C5349;
+  --subtle: #6B6257;
+
+  /* Accent (the only accent colour) */
+  --accent: #23395B;
+  --accent-hover: #152640;
+  --accent-soft: #E3E8F0;
+
+  /* Status */
+  --ok: #2F6B3F;
+  --ok-bg: #E2EFE3;
+  --warn: #7A4210;
+  --warn-bg: #F6E6CF;
+  --bad: #8B2C2C;
+  --bad-bg: #F5E0DE;
+
+  /* Spacing scale (4, 8, 12, 16, 24, 32, 48, 72) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-18: 72px;
+
+  /* Radii */
+  --radius-input: 10px;
+  --radius-card: 18px;
+  --radius-pill: 999px;
+
+  /* Layout */
+  --content-max: 1200px;
+  --content-pad: 24px;
+
+  /* Type */
+  --font-heading: "Newsreader", serif;
+  --font-body: "Figtree", sans-serif;
+  --font-devanagari: "Noto Serif Devanagari", serif;
+}
