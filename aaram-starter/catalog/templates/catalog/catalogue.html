@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load core_extras %}
+
+{% block title %}All mattresses{% endblock %}
+
+{% block content %}
+<nav class="breadcrumb" aria-label="Breadcrumb"><a href="{% url 'core:home' %}">Home</a> / Mattresses</nav>
+
+<form class="catalogue" method="get" action="{% url 'catalog:catalogue' %}">
+  <div class="catalogue-head">
+    <div>
+      <h1 class="page-title catalogue-title">All mattresses</h1>
+      <p class="catalogue-count">{{ total }} mattress{{ total|pluralize:",es" }}</p>
+    </div>
+    <div class="catalogue-tools">
+      <div class="search-inline">
+        <label class="visually-hidden" for="cat-search">Search mattresses</label>
+        <input class="search-inline-input" id="cat-search" type="search" name="q" value="{{ query }}" placeholder="Search by name or material">
+      </div>
+      <label for="sort">Sort by</label>
+      <select id="sort" name="sort">
+        <option value="popular"{% if sort == "popular" %} selected{% endif %}>Most popular</option>
+        <option value="price-asc"{% if sort == "price-asc" %} selected{% endif %}>Price: low to high</option>
+        <option value="price-desc"{% if sort == "price-desc" %} selected{% endif %}>Price: high to low</option>
+        <option value="newest"{% if sort == "newest" %} selected{% endif %}>Newest</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="catalogue-body">
+    <aside class="filters" aria-label="Filters">
+      <div class="filters-head">
+        <span class="filters-title">Filters</span>
+        <a class="filters-clear" href="{% url 'catalog:catalogue' %}">Clear all</a>
+      </div>
+
+      <fieldset class="filter-group">
+        <legend>Type</legend>
+        {% for category in categories %}
+        <label class="filter-check">
+          <input type="checkbox" name="category" value="{{ category.slug }}"{% if category.slug in selected_categories %} checked{% endif %}>
+          {{ category.name }}
+        </label>
+        {% endfor %}
+      </fieldset>
+
+      <fieldset class="filter-group">
+        <legend>Size</legend>
+        {% for size in sizes %}
+        <label class="filter-check">
+          <input type="checkbox" name="size" value="{{ size.name }}"{% if size.name in selected_sizes %} checked{% endif %}>
+          {{ size.name }}
+        </label>
+        {% endfor %}
+      </fieldset>
+
+      <fieldset class="filter-group">
+        <legend>Firmness</legend>
+        <label class="filter-check"><input type="checkbox" name="firmness" value="soft"{% if "soft" in selected_firmness %} checked{% endif %}>Soft to medium-soft</label>
+        <label class="filter-check"><input type="checkbox" name="firmness" value="medium"{% if "medium" in selected_firmness %} checked{% endif %}>Medium</label>
+        <label class="filter-check"><input type="checkbox" name="firmness" value="firm"{% if "firm" in selected_firmness %} checked{% endif %}>Medium-firm to firm</label>
+      </fieldset>
+
+      <fieldset class="filter-group">
+        <legend>Price (Rs.)</legend>
+        <div class="price-range">
+          <label class="visually-hidden" for="pmin">Minimum price</label>
+          <input id="pmin" type="number" min="0" name="price_min" value="{{ price_min }}" placeholder="Min">
+          <span>to</span>
+          <label class="visually-hidden" for="pmax">Maximum price</label>
+          <input id="pmax" type="number" min="0" name="price_max" value="{{ price_max }}" placeholder="Max">
+        </div>
+      </fieldset>
+
+      <label class="filter-check filter-check-strong">
+        <input type="checkbox" name="in_stock" value="1"{% if in_stock %} checked{% endif %}>
+        In stock only
+      </label>
+
+      <button class="btn btn-primary filters-apply" type="submit">Apply filters</button>
+    </aside>
+
+    <section class="results" aria-label="Results">
+      {% if page.object_list %}
+      <div class="product-grid">
+        {% for product in page.object_list %}
+        {% include "partials/product_card.html" %}
+        {% endfor %}
+      </div>
+
+      {% if page.paginator.num_pages > 1 %}
+      <nav class="pagination" aria-label="Pages">
+        {% if page.has_previous %}
+        <a href="?{% if base_query %}{{ base_query }}&{% endif %}page={{ page.previous_page_number }}">Previous</a>
+        {% endif %}
+        {% for n in page.paginator.page_range %}
+          {% if n == page.number %}
+          <a class="page-current" aria-current="page" href="?{% if base_query %}{{ base_query }}&{% endif %}page={{ n }}">{{ n }}</a>
+          {% else %}
+          <a href="?{% if base_query %}{{ base_query }}&{% endif %}page={{ n }}">{{ n }}</a>
+          {% endif %}
+        {% endfor %}
+        {% if page.has_next %}
+        <a href="?{% if base_query %}{{ base_query }}&{% endif %}page={{ page.next_page_number }}">Next</a>
+        {% endif %}
+      </nav>
+      {% endif %}
+
+      {% else %}
+      <p class="empty">No mattresses match your filters. <a href="{% url 'catalog:catalogue' %}">Clear all filters</a>.</p>
+      {% endif %}
+    </section>
+  </div>
+</form>
+{% endblock %}

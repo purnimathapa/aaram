@@ -1,0 +1,17 @@
+{# Product card. Expects: product (with min_price annotation, variants prefetched). #}
+{% load core_extras %}
+<a class="product-card" href="{% url 'catalog:product_detail' product.slug %}">
+  <div class="product-card-figure">
+    {% include "partials/layer_illustration.html" with comfort=product.category.comfort_color core=product.category.core_color %}
+  </div>
+  <div class="product-card-meta">
+    <span class="product-card-category">{{ product.category.name }}</span>
+    <span class="stock-pill stock-{{ product.card_stock.modifier }}">{{ product.card_stock.text }}</span>
+  </div>
+  <div class="product-card-name">{{ product.name }}</div>
+  <div class="product-card-feel">{{ product.get_firmness_display }} · {{ product.size_count }} sizes</div>
+  <div class="product-card-price">
+    <span class="product-card-from">From</span>
+    <span class="product-card-amount">{{ product.min_price|npr }}</span>
+  </div>
+</a>

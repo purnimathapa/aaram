@@ -8,15 +8,14 @@
   </a>
 
   <nav class="main-nav" aria-label="Main">
-    <a href="#">Mattresses</a>
-    <a href="#">Size guide</a>
-    <a href="#">Delivery and COD</a>
-    <a href="#">About</a>
+    <a href="{% url 'catalog:catalogue' %}">Mattresses</a>
+    <a href="{{ home_url }}#sizes">Size guide</a>
+    <a href="{{ home_url }}#how">Delivery and COD</a>
   </nav>
 
   <div class="header-spacer"></div>
 
-  <form class="search-form" role="search" action="#">
+  <form class="search-form" role="search" action="{% url 'catalog:catalogue' %}">
     <label class="visually-hidden" for="header-search">Search mattresses</label>
     <input class="search-input" id="header-search" type="search" name="q" placeholder="Search mattresses">
     <button class="search-button" type="submit" aria-label="Search">
