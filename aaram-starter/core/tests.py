@@ -1,0 +1,10 @@
+"""Tests for the core store pages."""
+from django.test import TestCase
+from django.urls import reverse
+
+
+class HomePageTests(TestCase):
+    def test_home_returns_200_and_uses_base_template(self):
+        response = self.client.get(reverse("core:home"))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "base.html")
