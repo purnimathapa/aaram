@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AARAM checkout</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&amp;family=Noto+Serif+Devanagari:wght@500&amp;display=swap">
+<style>
+body{margin:0;background:#F6F1E9}
+a{color:#23395B}a:hover{color:#152640}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #23395B;outline-offset:2px}
+</style>
+</helmet>
+<div style="min-height: 100%; background: #F6F1E9; color: #24201C; font-family: 'Figtree', sans-serif; font-size: 16px; line-height: 1.5">
+
+<header style="max-width: 1200px; margin: 0 auto; padding: 20px 24px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap; border-bottom: 1px solid #E4DACB">
+<a href="Main.dc.html" style="text-decoration: none; color: #24201C; display: flex; align-items: baseline; gap: 10px">
+<span style="font-family: 'Newsreader', serif; font-size: 30px; font-weight: 600; letter-spacing: 0.08em">AARAM</span>
+<span lang="ne" style="font-family: 'Noto Serif Devanagari', serif; font-size: 16px; color: #6B6257">आराम</span>
+</a>
+<div style="flex: 1 1 0"></div>
+<ol aria-label="Checkout steps" style="margin: 0; padding: 0; list-style: none; display: flex; gap: 12px; flex-wrap: wrap; font-size: 15px">
+<li style="display: flex; align-items: center; gap: 8px; color: #2F6B3F; font-weight: 600"><span style="width: 24px; height: 24px; border-radius: 999px; background: #E2EFE3; display: flex; align-items: center; justify-content: center; font-size: 13px">✓</span>Cart</li>
+<li aria-hidden="true" style="color: #B3A690">—</li>
+<li aria-current="step" style="display: flex; align-items: center; gap: 8px; color: #23395B; font-weight: 600"><span style="width: 24px; height: 24px; border-radius: 999px; background: #23395B; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 13px">2</span>Delivery and payment</li>
+<li aria-hidden="true" style="color: #B3A690">—</li>
+<li style="display: flex; align-items: center; gap: 8px; color: #6B6257"><span style="width: 24px; height: 24px; border-radius: 999px; border: 1px solid #B3A690; display: flex; align-items: center; justify-content: center; font-size: 13px">3</span>Confirmation</li>
+</ol>
+</header>
+
+<main style="max-width: 1200px; margin: 0 auto; padding: 32px 24px 72px; display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start">
+
+<form style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 28px">
+<h1 style="margin: 0; font-family: 'Newsreader', serif; font-weight: 500; font-size: 44px; line-height: 1.1">Checkout</h1>
+
+<fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px">
+<legend style="font-weight: 600; font-size: 20px; margin-bottom: 12px">Delivery address</legend>
+<label style="display: flex; gap: 14px; align-items: flex-start; background: #FFFDF8; border: 2px solid #23395B; border-radius: 16px; padding: 18px 20px; cursor: pointer">
+<input type="radio" name="address" checked style="width: 20px; height: 20px; margin-top: 3px; accent-color: #23395B">
+<span style="display: flex; flex-direction: column; gap: 2px; flex: 1 1 0">
+<span style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap"><span style="font-weight: 600">Home</span><span style="font-size: 12px; font-weight: 600; background: #E3E8F0; color: #23395B; padding: 2px 8px; border-radius: 999px">Default</span></span>
+<span>Pratyush Pokharel · 98XXXXXXXX</span>
+<span style="color: #5C5349; font-size: 15px">Baneshwor, Ward 10, Kathmandu Metropolitan City, Kathmandu, Bagmati Province</span>
+<span style="color: #5C5349; font-size: 15px">Landmark: near the temple gate</span>
+</span>
+<a href="#edit-home" style="font-size: 14px">Edit</a>
+</label>
+<label style="display: flex; gap: 14px; align-items: flex-start; background: #FFFDF8; border: 1px solid #D9CCB8; border-radius: 16px; padding: 18px 20px; cursor: pointer">
+<input type="radio" name="address" style="width: 20px; height: 20px; margin-top: 3px; accent-color: #23395B">
+<span style="display: flex; flex-direction: column; gap: 2px; flex: 1 1 0">
+<span style="font-weight: 600">Parents' house</span>
+<span>Pratyush Pokharel · 98XXXXXXXX</span>
+<span style="color: #5C5349; font-size: 15px">Lakeside, Ward 6, Pokhara Metropolitan City, Kaski, Gandaki Province</span>
+</span>
+<a href="#edit-parents" style="font-size: 14px">Edit</a>
+</label>
+<button type="button" style="align-self: flex-start; font: inherit; font-weight: 600; min-height: 44px; padding: 0 18px; border: 1.5px dashed #B3A690; border-radius: 12px; background: transparent; color: #23395B; cursor: pointer">+ Add a new address</button>
+</fieldset>
+
+<fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px">
+<legend style="font-weight: 600; font-size: 20px; margin-bottom: 12px">Payment</legend>
+<label style="display: flex; gap: 14px; align-items: flex-start; background: #FFFDF8; border: 2px solid #23395B; border-radius: 16px; padding: 18px 20px; cursor: pointer">
+<input type="radio" name="payment" checked style="width: 20px; height: 20px; margin-top: 3px; accent-color: #23395B">
+<span style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-weight: 600">Cash on Delivery</span>
+<span style="color: #5C5349; font-size: 15px">Pay Rs. 37,000 in cash when your mattress arrives. We call you to confirm before dispatch.</span>
+</span>
+</label>
+<label style="display: flex; gap: 14px; align-items: flex-start; background: #FFFDF8; border: 1px solid #D9CCB8; border-radius: 16px; padding: 18px 20px; cursor: pointer">
+<input type="radio" name="payment" style="width: 20px; height: 20px; margin-top: 3px; accent-color: #23395B">
+<span style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-weight: 600">Khalti</span>
+<span style="color: #5C5349; font-size: 15px">Pay now with your Khalti wallet. You will return here after paying.</span>
+</span>
+</label>
+</fieldset>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="note" style="font-weight: 600">Note for delivery <span style="font-weight: 400; color: #5C5349">(optional)</span></label>
+<textarea id="note" rows="3" placeholder="For example: call before arriving, third floor, no lift" style="font: inherit; font-size: 15px; padding: 12px 14px; border: 1px solid #D9CCB8; border-radius: 12px; background: #FFFDF8; color: #24201C; resize: vertical"></textarea>
+</div>
+</form>
+
+<aside aria-label="Order summary" style="flex: 1 1 340px; min-width: 0; background: #FFFDF8; border: 1px solid #E4DACB; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; justify-content: space-between; align-items: baseline"><h2 style="margin: 0; font-size: 20px; font-weight: 600">Your order</h2><a href="Product.dc.html" style="font-size: 14px">Edit cart</a></div>
+
+<div style="display: flex; gap: 14px; align-items: flex-start">
+<div style="width: 84px; flex: none; background: #EDE4D6; border-radius: 10px; padding: 18px 12px; display: flex; flex-direction: column">
+<div style="height: 6px; background: #FFFDF8; border: 1px solid #D9CCB8; border-radius: 4px 4px 0 0"></div>
+<div style="height: 9px; background: #E3D3B8"></div>
+<div style="height: 16px; background: #C9B28A"></div>
+<div style="height: 4px; background: #23395B; border-radius: 0 0 3px 3px"></div>
+</div>
+<div style="flex: 1 1 0; display: flex; flex-direction: column; gap: 2px">
+<span style="font-weight: 600">AARAM Nidra</span>
+<span style="font-size: 14px; color: #5C5349">Queen · 75 × 60 in · 8 in thick</span>
+<span style="font-size: 14px; color: #5C5349">Qty 1</span>
+</div>
+<span style="font-weight: 600">Rs. 36,500</span>
+</div>
+
+<dl style="margin: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto; row-gap: 10px; column-gap: 12px; border-top: 1px solid #EFE7DA; padding-top: 16px; font-size: 15px">
+<dt style="color: #5C5349">Subtotal</dt><dd style="margin: 0; text-align: right">Rs. 36,500</dd>
+<dt style="color: #5C5349">Delivery to Bagmati (2 to 4 days)</dt><dd style="margin: 0; text-align: right">Rs. 500</dd>
+<dt style="font-weight: 600; font-size: 18px; border-top: 1px solid #EFE7DA; padding-top: 12px">Total</dt><dd style="margin: 0; text-align: right; font-weight: 700; font-size: 22px; border-top: 1px solid #EFE7DA; padding-top: 10px">Rs. 37,000</dd>
+</dl>
+
+<a href="OrderDetail.dc.html" style="background: #23395B; color: #FFFFFF; text-decoration: none; font-weight: 600; min-height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 17px">Place order · Rs. 37,000</a>
+<p style="margin: 0; font-size: 14px; color: #5C5349">We check the price and stock again when you place the order, so you always pay what you see here.</p>
+</aside>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1250}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

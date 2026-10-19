@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AARAM staff dashboard</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&amp;family=Noto+Serif+Devanagari:wght@500&amp;display=swap">
+<style>
+body{margin:0;background:#F6F1E9}
+a{color:#23395B}a:hover{color:#152640}
+a:focus-visible,button:focus-visible,select:focus-visible{outline:3px solid #23395B;outline-offset:2px}
+</style>
+</helmet>
+<div style="min-height: 100%; background: #F6F1E9; color: #24201C; font-family: 'Figtree', sans-serif; font-size: 15px; line-height: 1.5; display: flex; flex-wrap: wrap; align-items: stretch">
+
+<nav aria-label="Staff" style="flex: 1 1 220px; max-width: 260px; background: #24201C; color: #EDE4D6; padding: 24px 16px; display: flex; flex-direction: column; gap: 6px; box-sizing: border-box">
+<div style="display: flex; align-items: baseline; gap: 8px; padding: 0 12px 20px"><span style="font-family: 'Newsreader', serif; font-size: 24px; font-weight: 600; letter-spacing: 0.08em; color: #F6F1E9">AARAM</span><span style="font-size: 13px; color: #CDBFA9">Staff</span></div>
+<a href="Dashboard.dc.html" aria-current="page" style="display: flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 10px; background: #3A3129; color: #FFFFFF; font-weight: 600; text-decoration: none">Dashboard</a>
+<a href="#orders" style="display: flex; align-items: center; justify-content: space-between; min-height: 44px; padding: 0 12px; border-radius: 10px; color: #EDE4D6; text-decoration: none">Orders <span style="font-size: 12px; font-weight: 700; background: #E9B872; color: #24201C; border-radius: 999px; padding: 1px 8px">6 new</span></a>
+<a href="#products" style="display: flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 10px; color: #EDE4D6; text-decoration: none">Products</a>
+<a href="#inventory" style="display: flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 10px; color: #EDE4D6; text-decoration: none">Inventory</a>
+<a href="#customers" style="display: flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 10px; color: #EDE4D6; text-decoration: none">Customers</a>
+<a href="#reviews" style="display: flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 10px; color: #EDE4D6; text-decoration: none">Reviews</a>
+<div style="height: 1px; background: #3B342D; margin: 12px 0"></div>
+<a href="#admin" style="display: flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 10px; color: #CDBFA9; text-decoration: none">Store settings (Django Admin)</a>
+<a href="Main.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 10px; color: #CDBFA9; text-decoration: none">View shop</a>
+</nav>
+
+<main style="flex: 999 1 560px; min-width: 0; padding: 32px; display: flex; flex-direction: column; gap: 28px; box-sizing: border-box">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap">
+<div>
+<h1 style="margin: 0; font-family: 'Newsreader', serif; font-weight: 500; font-size: 40px; line-height: 1.1">Dashboard</h1>
+<p style="margin: 4px 0 0; color: #5C5349">6 orders are waiting for a confirmation call.</p>
+</div>
+<div style="display: flex; gap: 10px; align-items: center">
+<label for="period" style="color: #5C5349">Period</label>
+<select id="period" style="font: inherit; min-height: 44px; padding: 0 12px; border: 1px solid #D9CCB8; border-radius: 10px; background: #FFFDF8; color: #24201C">
+<option>This month</option>
+<option>Last 7 days</option>
+<option>Today</option>
+</select>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px">
+<sc-for list="{{kpis}}" as="k" hint-placeholder-count="4">
+<div style="background: #FFFDF8; border: 1px solid #E4DACB; border-radius: 16px; padding: 18px 20px; display: flex; flex-direction: column; gap: 4px; {{k.edge}}">
+<span style="color: #5C5349; font-size: 14px">{{k.label}}</span>
+<span style="font-size: 30px; font-weight: 700; line-height: 1.2">{{k.value}}</span>
+<span style="font-size: 13px; color: #6B6257">{{k.sub}}</span>
+</div>
+</sc-for>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+<section aria-labelledby="recent-h" style="flex: 999 1 520px; min-width: 0; background: #FFFDF8; border: 1px solid #E4DACB; border-radius: 18px; padding: 20px 20px 8px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px"><h2 id="recent-h" style="margin: 0; font-size: 18px; font-weight: 600">Recent orders</h2><a href="#orders" style="font-size: 14px; font-weight: 600">All orders</a></div>
+<div style="overflow-x: auto">
+<table style="width: 100%; border-collapse: collapse; font-size: 14px; min-width: 560px">
+<thead>
+<tr style="text-align: left; color: #6B6257">
+<th scope="col" style="padding: 10px 8px; font-weight: 600; border-bottom: 1px solid #E4DACB">Order</th>
+<th scope="col" style="padding: 10px 8px; font-weight: 600; border-bottom: 1px solid #E4DACB">Customer</th>
+<th scope="col" style="padding: 10px 8px; font-weight: 600; border-bottom: 1px solid #E4DACB">Province</th>
+<th scope="col" style="padding: 10px 8px; font-weight: 600; border-bottom: 1px solid #E4DACB; text-align: right">Total</th>
+<th scope="col" style="padding: 10px 8px; font-weight: 600; border-bottom: 1px solid #E4DACB">Payment</th>
+<th scope="col" style="padding: 10px 8px; font-weight: 600; border-bottom: 1px solid #E4DACB">Status</th>
+<th scope="col" style="padding: 10px 8px; border-bottom: 1px solid #E4DACB"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap">Action</span></th>
+</tr>
+</thead>
+<tbody>
+<sc-for list="{{orders}}" as="o" hint-placeholder-count="6">
+<tr>
+<td style="padding: 12px 8px; border-bottom: 1px solid #EFE7DA; font-weight: 600; white-space: nowrap">{{o.num}}</td>
+<td style="padding: 12px 8px; border-bottom: 1px solid #EFE7DA">{{o.customer}}</td>
+<td style="padding: 12px 8px; border-bottom: 1px solid #EFE7DA">{{o.province}}</td>
+<td style="padding: 12px 8px; border-bottom: 1px solid #EFE7DA; text-align: right; white-space: nowrap">Rs. {{o.total}}</td>
+<td style="padding: 12px 8px; border-bottom: 1px solid #EFE7DA">{{o.pay}}</td>
+<td style="padding: 12px 8px; border-bottom: 1px solid #EFE7DA"><span style="font-size: 13px; font-weight: 600; padding: 3px 10px; border-radius: 999px; white-space: nowrap; {{o.statusStyle}}">{{o.status}}</span></td>
+<td style="padding: 12px 8px; border-bottom: 1px solid #EFE7DA; text-align: right"><a href="#order" style="font-weight: 600">{{o.action}}</a></td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</section>
+
+<section aria-labelledby="low-h" style="flex: 1 1 280px; min-width: 0; background: #FFFDF8; border: 1px solid #E4DACB; border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; justify-content: space-between; align-items: baseline"><h2 id="low-h" style="margin: 0; font-size: 18px; font-weight: 600">Low stock</h2><a href="#inventory" style="font-size: 14px; font-weight: 600">Inventory</a></div>
+<p style="margin: 0; font-size: 13px; color: #6B6257">Sizes with 3 or fewer left</p>
+<sc-for list="{{lowStock}}" as="l" hint-placeholder-count="4">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; border-top: 1px solid #EFE7DA; padding-top: 10px">
+<div style="display: flex; flex-direction: column"><span style="font-weight: 600">{{l.name}}</span><span style="font-size: 13px; color: #6B6257">{{l.variant}}</span></div>
+<span style="font-size: 13px; font-weight: 700; padding: 3px 10px; border-radius: 999px; white-space: nowrap; {{l.style}}">{{l.left}}</span>
+</div>
+</sc-for>
+</section>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch">
+<section aria-labelledby="daily-h" style="flex: 3 1 420px; min-width: 0; background: #FFFDF8; border: 1px solid #E4DACB; border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 14px">
+<div><h2 id="daily-h" style="margin: 0; font-size: 18px; font-weight: 600">Orders per day</h2><p style="margin: 2px 0 0; font-size: 13px; color: #6B6257">Busiest day: 11 Oct, 5 orders · 31 orders from 3 to 16 Oct</p></div>
+<div role="img" aria-label="Bar chart of orders per day from 3 to 16 October, peaking at 5 orders on 11 October" style="display: flex; align-items: flex-end; gap: 6px; height: 170px; border-bottom: 1px solid #D9CCB8; padding-top: 18px">
+<sc-for list="{{days}}" as="d" hint-placeholder-count="14">
+<div style="flex: 1 1 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px; height: 100%">
+<span style="font-size: 12px; color: #5C5349">{{d.n}}</span>
+<div style="width: 100%; max-width: 28px; height: {{d.h}}; background: {{d.color}}; border-radius: 4px 4px 0 0"></div>
+</div>
+</sc-for>
+</div>
+<div aria-hidden="true" style="display: flex; gap: 6px; margin-top: -8px">
+<sc-for list="{{days}}" as="d" hint-placeholder-count="14">
+<span style="flex: 1 1 0; text-align: center; font-size: 11px; color: #6B6257">{{d.label}}</span>
+</sc-for>
+</div>
+</section>
+<section aria-labelledby="prov-h" style="flex: 2 1 320px; min-width: 0; background: #FFFDF8; border: 1px solid #E4DACB; border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 12px">
+<div><h2 id="prov-h" style="margin: 0; font-size: 18px; font-weight: 600">Sales by province</h2><p style="margin: 2px 0 0; font-size: 13px; color: #6B6257">Bagmati brings 41% of this month's Rs. 8,42,000</p></div>
+<sc-for list="{{provSales}}" as="p" hint-placeholder-count="7">
+<div style="display: grid; grid-template-columns: 112px minmax(0, 1fr) 86px; gap: 10px; align-items: center; font-size: 13px">
+<span>{{p.name}}</span>
+<div style="height: 14px; background: #EFE7DA; border-radius: 4px; overflow: hidden"><div style="height: 100%; width: {{p.w}}; background: {{p.color}}; border-radius: 4px"></div></div>
+<span style="text-align: right; font-weight: 600">Rs. {{p.amount}}</span>
+</div>
+</sc-for>
+</section>
+</div>
+<p style="margin: 0; font-size: 13px; color: #6B6257">Sample figures for the mockup. In the real system these come from database queries on orders.</p>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1150}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const pending = 'background: #F6E6CF; color: #7A4210';
+    const active = 'background: #E3E8F0; color: #23395B';
+    const shipped = 'background: #E6E1F0; color: #4A3A78';
+    const done = 'background: #E2EFE3; color: #2F6B3F';
+    const out = 'background: #F5E0DE; color: #8B2C2C';
+    const counts = [1, 3, 2, 0, 4, 2, 3, 1, 5, 2, 3, 2, 1, 2];
+    const sales = [['Bagmati', 346000, '3,46,000'], ['Gandaki', 142000, '1,42,000'], ['Koshi', 118500, '1,18,500'], ['Lumbini', 101500, '1,01,500'], ['Madhesh', 72000, '72,000'], ['Sudurpashchim', 38000, '38,000'], ['Karnali', 24000, '24,000']];
+    return {
+      days: counts.map((n, i) => ({ n: n, label: String(3 + i), h: Math.max(2, n * 26) + 'px', color: n === 5 ? '#23395B' : '#A9B4C2' })),
+      provSales: sales.map((s, i) => ({ name: s[0], amount: s[2], w: Math.round(s[1] / 346000 * 100) + '%', color: i === 0 ? '#23395B' : '#A9B4C2' })),
+      kpis: [
+        { label: 'Waiting for confirmation', value: '6', sub: 'Pending orders', edge: 'border-top: 4px solid #E9B872' },
+        { label: 'Orders this month', value: '31', sub: '13 delivered, 2 cancelled', edge: '' },
+        { label: 'Sales this month', value: 'Rs. 8,42,000', sub: 'Delivered and paid orders', edge: '' },
+        { label: 'Low-stock sizes', value: '4', sub: '1 sold out', edge: 'border-top: 4px solid #C0605A' }
+      ],
+      orders: [
+        { num: 'AR-2026-00047', customer: 'Sita Shrestha', province: 'Bagmati', total: '30,000', pay: 'COD', status: 'Pending', statusStyle: pending, action: 'Confirm' },
+        { num: 'AR-2026-00046', customer: 'Bikash Rai', province: 'Koshi', total: '43,700', pay: 'Khalti · Paid', status: 'Pending', statusStyle: pending, action: 'Confirm' },
+        { num: 'AR-2026-00045', customer: 'Anjali Gurung', province: 'Gandaki', total: '22,500', pay: 'COD', status: 'Confirmed', statusStyle: active, action: 'Start processing' },
+        { num: 'AR-2026-00042', customer: 'Pratyush Pokharel', province: 'Bagmati', total: '37,000', pay: 'COD', status: 'Processing', statusStyle: active, action: 'Mark shipped' },
+        { num: 'AR-2026-00040', customer: 'Ramesh Yadav', province: 'Madhesh', total: '25,500', pay: 'COD', status: 'Shipped', statusStyle: shipped, action: 'Mark delivered' },
+        { num: 'AR-2026-00038', customer: 'Kabita Thapa', province: 'Lumbini', total: '50,700', pay: 'COD · Paid', status: 'Delivered', statusStyle: done, action: 'View' }
+      ],
+      lowStock: [
+        { name: 'AARAM Nidra', variant: 'King · 6 in', left: 'Sold out', style: out },
+        { name: 'AARAM Sheetal Latex', variant: 'Queen · 8 in', left: '2 left', style: pending },
+        { name: 'AARAM Nidra', variant: 'Queen · 6 in', left: '2 left', style: pending },
+        { name: 'AARAM Himal Ortho', variant: 'Single · 6 in', left: '3 left', style: pending }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

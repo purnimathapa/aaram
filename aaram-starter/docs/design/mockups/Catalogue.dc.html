@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AARAM mattresses catalogue</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&amp;family=Noto+Serif+Devanagari:wght@500&amp;display=swap">
+<style>
+body{margin:0;background:#F6F1E9}
+a{color:#23395B}a:hover{color:#152640}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #23395B;outline-offset:2px}
+</style>
+</helmet>
+<div style="min-height: 100%; background: #F6F1E9; color: #24201C; font-family: 'Figtree', sans-serif; font-size: 16px; line-height: 1.5">
+
+<header style="max-width: 1200px; margin: 0 auto; padding: 20px 24px; display: flex; align-items: center; gap: 32px; flex-wrap: wrap; border-bottom: 1px solid #E4DACB">
+<a href="Main.dc.html" style="text-decoration: none; color: #24201C; display: flex; align-items: baseline; gap: 10px">
+<span style="font-family: 'Newsreader', serif; font-size: 30px; font-weight: 600; letter-spacing: 0.08em">AARAM</span>
+<span lang="ne" style="font-family: 'Noto Serif Devanagari', serif; font-size: 16px; color: #6B6257">आराम</span>
+</a>
+<nav aria-label="Main" style="display: flex; gap: 24px; flex-wrap: wrap; font-weight: 500">
+<a href="Catalogue.dc.html" aria-current="page" style="color: #23395B; text-decoration: underline; text-underline-offset: 6px">Mattresses</a>
+<a href="Main.dc.html#sizes" style="color: #24201C; text-decoration: none">Size guide</a>
+<a href="Main.dc.html#how" style="color: #24201C; text-decoration: none">Delivery and COD</a>
+</nav>
+<div style="flex: 1 1 0"></div>
+<a href="#account" style="color: #24201C; font-weight: 500">Namaste, Pratyush</a>
+<a href="Checkout.dc.html" style="color: #24201C; font-weight: 600; text-decoration: none">Cart (1)</a>
+</header>
+
+<main style="max-width: 1200px; margin: 0 auto; padding: 32px 24px 72px; display: flex; flex-direction: column; gap: 28px">
+<nav aria-label="Breadcrumb" style="font-size: 14px; color: #6B6257"><a href="Main.dc.html" style="color: #6B6257">Home</a> / Mattresses</nav>
+
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px">
+<div>
+<h1 style="margin: 0; font-family: 'Newsreader', serif; font-weight: 500; font-size: 48px; line-height: 1.1">All mattresses</h1>
+<p style="margin: 6px 0 0; color: #5C5349">6 mattresses · every one in Single, Double, Queen and King</p>
+</div>
+<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center">
+<form role="search" style="display: flex; align-items: center; background: #FFFDF8; border: 1px solid #D9CCB8; border-radius: 10px; padding: 0 12px; min-height: 44px">
+<label for="cat-search" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap">Search mattresses</label>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B6257" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+<input id="cat-search" type="search" placeholder="Search by name or material" style="border: 0; background: transparent; font: inherit; font-size: 15px; width: 220px; padding: 10px 8px; color: #24201C">
+</form>
+<label for="sort" style="font-size: 15px; color: #5C5349">Sort by</label>
+<select id="sort" style="font: inherit; font-size: 15px; min-height: 44px; padding: 0 12px; border: 1px solid #D9CCB8; border-radius: 10px; background: #FFFDF8; color: #24201C">
+<option>Most popular</option>
+<option>Price: low to high</option>
+<option>Price: high to low</option>
+<option>Newest</option>
+</select>
+</div>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start">
+<aside aria-label="Filters" style="flex: 1 1 240px; max-width: 280px; background: #FFFDF8; border: 1px solid #E4DACB; border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 24px; box-sizing: border-box">
+<div style="display: flex; justify-content: space-between; align-items: baseline"><span style="font-weight: 600; font-size: 18px">Filters</span><a href="#clear" style="font-size: 14px">Clear all</a></div>
+
+<fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px">
+<legend style="font-weight: 600; font-size: 15px; margin-bottom: 8px">Type</legend>
+<label style="display: flex; gap: 10px; align-items: center; font-size: 15px"><input type="checkbox" checked style="width: 18px; height: 18px; accent-color: #23395B">Memory foam (1)</label>
+<label style="display: flex; gap: 10px; align-items: center; font-size: 15px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #23395B">Orthopedic (1)</label>
+<label style="display: flex; gap: 10px; align-items: center; font-size: 15px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #23395B">Latex (1)</label>
+<label style="display: flex; gap: 10px; align-items: center; font-size: 15px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #23395B">Pocket spring (1)</label>
+<label style="display: flex; gap: 10px; align-items: center; font-size: 15px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #23395B">Coir and foam (1)</label>
+<label style="display: flex; gap: 10px; align-items: center; font-size: 15px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #23395B">Hybrid (1)</label>
+</fieldset>
+
+<fieldset style="border: 0; margin: 0; padding: 0">
+<legend style="font-weight: 600; font-size: 15px; margin-bottom: 10px">Size</legend>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<button type="button" aria-pressed="false" style="font: inherit; font-size: 14px; min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid #D9CCB8; background: #FFFDF8; color: #24201C; cursor: pointer">Single</button>
+<button type="button" aria-pressed="false" style="font: inherit; font-size: 14px; min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid #D9CCB8; background: #FFFDF8; color: #24201C; cursor: pointer">Double</button>
+<button type="button" aria-pressed="true" style="font: inherit; font-size: 14px; min-height: 40px; padding: 0 14px; border-radius: 999px; border: 2px solid #23395B; background: #E3E8F0; color: #23395B; font-weight: 600; cursor: pointer">Queen</button>
+<button type="button" aria-pressed="false" style="font: inherit; font-size: 14px; min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid #D9CCB8; background: #FFFDF8; color: #24201C; cursor: pointer">King</button>
+</div>
+</fieldset>
+
+<fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px">
+<legend style="font-weight: 600; font-size: 15px; margin-bottom: 8px">Firmness</legend>
+<label style="display: flex; gap: 10px; align-items: center; font-size: 15px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #23395B">Soft to medium-soft</label>
+<label style="display: flex; gap: 10px; align-items: center; font-size: 15px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #23395B">Medium</label>
+<label style="display: flex; gap: 10px; align-items: center; font-size: 15px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #23395B">Medium-firm to firm</label>
+</fieldset>
+
+<fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px">
+<legend style="font-weight: 600; font-size: 15px; margin-bottom: 8px">Price (Rs.)</legend>
+<div style="display: flex; gap: 8px; align-items: center">
+<label for="pmin" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap">Minimum price</label>
+<input id="pmin" type="number" placeholder="Min" style="font: inherit; font-size: 15px; width: 100%; min-height: 40px; padding: 0 10px; border: 1px solid #D9CCB8; border-radius: 8px; background: #FFFDF8; box-sizing: border-box">
+<span style="color: #6B6257">to</span>
+<label for="pmax" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap">Maximum price</label>
+<input id="pmax" type="number" placeholder="Max" style="font: inherit; font-size: 15px; width: 100%; min-height: 40px; padding: 0 10px; border: 1px solid #D9CCB8; border-radius: 8px; background: #FFFDF8; box-sizing: border-box">
+</div>
+</fieldset>
+
+<label style="display: flex; gap: 10px; align-items: center; font-size: 15px; font-weight: 500"><input type="checkbox" checked style="width: 18px; height: 18px; accent-color: #23395B">In stock in my size only</label>
+</aside>
+
+<section aria-label="Results" style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; gap: 8px; flex-wrap: wrap; font-size: 14px">
+<span style="background: #E3E8F0; color: #23395B; border-radius: 999px; padding: 6px 12px; font-weight: 600">Queen</span>
+<span style="background: #E3E8F0; color: #23395B; border-radius: 999px; padding: 6px 12px; font-weight: 600">In stock</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px">
+<sc-for list="{{products}}" as="p" hint-placeholder-count="6">
+<a href="Product.dc.html" style="min-width: 0; text-decoration: none; color: #24201C; background: #FFFDF8; border: 1px solid #E4DACB; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 12px">
+<div style="background: #EDE4D6; border-radius: 12px; padding: 36px 24px; display: flex; flex-direction: column">
+<div style="height: 12px; background: #FFFDF8; border: 1px solid #D9CCB8; border-radius: 8px 8px 0 0"></div>
+<div style="height: 18px; background: {{p.c1}}"></div>
+<div style="height: 28px; background: {{p.c2}}"></div>
+<div style="height: 7px; background: #23395B; border-radius: 0 0 6px 6px"></div>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap">
+<span style="font-size: 13px; color: #6B6257; text-transform: uppercase; letter-spacing: 0.06em">{{p.category}}</span>
+<span style="font-size: 13px; font-weight: 600; padding: 3px 10px; border-radius: 999px; {{p.badgeStyle}}">{{p.badge}}</span>
+</div>
+<div style="font-family: 'Newsreader', serif; font-size: 24px; font-weight: 500; line-height: 1.2">{{p.name}}</div>
+<div style="font-size: 15px; color: #5C5349">{{p.feel}} · {{p.thick}}</div>
+<div style="margin-top: auto; display: flex; justify-content: space-between; align-items: baseline; border-top: 1px solid #EFE7DA; padding-top: 12px">
+<span style="font-size: 14px; color: #6B6257">Queen from</span>
+<span style="font-size: 20px; font-weight: 600">Rs. {{p.price}}</span>
+</div>
+</a>
+</sc-for>
+</div>
+<nav aria-label="Pages" style="display: flex; justify-content: center; gap: 8px">
+<a href="#p1" aria-current="page" style="min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: #23395B; color: #FFFFFF; text-decoration: none; font-weight: 600">1</a>
+<a href="#p2" style="min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 10px; border: 1px solid #D9CCB8; color: #24201C; text-decoration: none">2</a>
+<a href="#next" style="padding: 0 16px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 10px; border: 1px solid #D9CCB8; color: #24201C; text-decoration: none">Next</a>
+</nav>
+</section>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1700}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const ok = 'background: #E2EFE3; color: #2F6B3F';
+    const low = 'background: #F6E6CF; color: #7A4210';
+    return {
+      products: [
+        { name: 'AARAM Nidra', category: 'Memory foam', feel: 'Medium-soft', thick: '6 or 8 in', price: '29,500', badge: 'In stock', badgeStyle: ok, c1: '#E3D3B8', c2: '#C9B28A' },
+        { name: 'AARAM Himal Ortho', category: 'Orthopedic', feel: 'Firm', thick: '6 or 8 in', price: '33,000', badge: 'In stock', badgeStyle: ok, c1: '#D7DCE3', c2: '#A9B4C2' },
+        { name: 'AARAM Sheetal Latex', category: 'Latex', feel: 'Medium', thick: '6 or 8 in', price: '49,000', badge: 'Only 2 left', badgeStyle: low, c1: '#E8E1C4', c2: '#CFC08E' },
+        { name: 'AARAM Basera Spring', category: 'Pocket spring', feel: 'Medium-firm', thick: '8 in', price: '41,500', badge: 'In stock', badgeStyle: ok, c1: '#E6D6CC', c2: '#C7A894' },
+        { name: 'AARAM Kapas Coir', category: 'Coir and foam', feel: 'Firm', thick: '4 or 6 in', price: '19,500', badge: 'In stock', badgeStyle: ok, c1: '#DCD0BC', c2: '#A88F6B' },
+        { name: 'AARAM Shanti Hybrid', category: 'Hybrid', feel: 'Medium', thick: '10 in', price: '58,000', badge: 'In stock', badgeStyle: ok, c1: '#E4DCE6', c2: '#B9A8BE' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
