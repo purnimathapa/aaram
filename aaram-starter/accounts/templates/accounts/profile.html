@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}My profile{% endblock %}
+
+{% block content %}
+<section class="account">
+  <h1 class="page-title">My profile</h1>
+
+  <p class="account-email">Signed in as <strong>{{ user.email }}</strong></p>
+
+  <form class="form" method="post" novalidate>
+    {% csrf_token %}
+    {% include "partials/form_fields.html" %}
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">Save changes</button>
+    </div>
+  </form>
+
+  <nav class="account-links" aria-label="Account">
+    <a href="{% url 'accounts:address_list' %}">My addresses</a>
+    <a href="{% url 'accounts:password_change' %}">Change password</a>
+  </nav>
+
+  <form class="logout-form" method="post" action="{% url 'accounts:logout' %}">
+    {% csrf_token %}
+    <button class="btn btn-secondary" type="submit">Log out</button>
+  </form>
+</section>
+{% endblock %}

@@ -2,7 +2,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from .models import User
+from .models import Address, User
 
 
 @admin.register(User)
@@ -40,3 +40,10 @@ class UserAdmin(BaseUserAdmin):
             },
         ),
     )
+
+
+@admin.register(Address)
+class AddressAdmin(admin.ModelAdmin):
+    list_display = ["recipient", "user", "province", "district", "is_default"]
+    list_filter = ["province", "is_default"]
+    search_fields = ["recipient", "user__email", "district", "municipality"]

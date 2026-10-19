@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<section class="account">
+  <h1 class="page-title">{{ title }}</h1>
+  <form class="form" method="post" novalidate>
+    {% csrf_token %}
+    {% include "partials/form_fields.html" %}
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">Save address</button>
+      <a class="btn btn-secondary" href="{% url 'accounts:address_list' %}">Cancel</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

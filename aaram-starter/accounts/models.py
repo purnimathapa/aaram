@@ -1,11 +1,14 @@
 """Account models.
 
 AARAM uses email to log in instead of a username, so we define a custom user
-model now, before the first migration, as Django requires. Addresses and the
-rest of the account features are added in the accounts phase.
+model now, before the first migration, as Django requires. Address stores the
+Nepali delivery addresses a customer saves for checkout.
 """
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
+
+from .validators import validate_nepali_mobile
 
 
 class UserManager(BaseUserManager):
@@ -52,3 +55,45 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+
+
+class Address(models.Model):
+    """A delivery address a customer can reuse at checkout."""
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="addresses",
+    )
+    # Deliveries depend on the province, so keep it even if an address is edited.
+    province = models.ForeignKey(
+        "core.Province",
+        on_delete=models.PROTECT,
+        related_name="addresses",
+    )
+    recipient = models.CharField(max_length=100)
+    phone = models.CharField(max_length=20, validators=[validate_nepali_mobile])
+    district = models.CharField(max_length=50)
+    municipality = models.CharField(max_length=100)
+    ward_no = models.PositiveSmallIntegerField()
+    street_tole = models.CharField(max_length=150)
+    landmark = models.CharField(max_length=150, blank=True)
+    is_default = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ["-is_default", "recipient"]
+        constraints = [
+            models.CheckConstraint(
+                condition=models.Q(ward_no__gte=1),
+                name="address_ward_no_at_least_one",
+            ),
+            # At most one default address per user, enforced by the database.
+            models.UniqueConstraint(
+                fields=["user"],
+                condition=models.Q(is_default=True),
+                name="one_default_address_per_user",
+            ),
+        ]
+
+    def __str__(self):
+        return f"{self.recipient}, {self.municipality}-{self.ward_no}, {self.district}"

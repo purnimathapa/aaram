@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Remove address{% endblock %}
+
+{% block content %}
+<section class="account">
+  <h1 class="page-title">Remove address</h1>
+  <p>Are you sure you want to remove this address?</p>
+  <p class="address-lines">
+    {{ address.recipient }}<br>
+    {{ address.street_tole }}, {{ address.municipality }}-{{ address.ward_no }}<br>
+    {{ address.district }}, {{ address.province.name }}
+  </p>
+  <form class="form" method="post">
+    {% csrf_token %}
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">Remove address</button>
+      <a class="btn btn-secondary" href="{% url 'accounts:address_list' %}">Cancel</a>
+    </div>
+  </form>
+</section>
+{% endblock %}
