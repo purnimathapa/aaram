@@ -15,7 +15,14 @@ from django.db import transaction
 from cart.models import CartItem
 from catalog.models import ProductVariant
 
-from .models import Order, OrderItem, OrderStatusHistory, OrderStatus
+from .models import (
+    Order,
+    OrderItem,
+    OrderStatusHistory,
+    OrderStatus,
+    PaymentMethod,
+    PaymentStatus,
+)
 
 
 class OrderError(Exception):
@@ -146,11 +153,7 @@ def cancel_order(order, actor, reason=""):
     order.status = OrderStatus.CANCELLED
     order.save(update_fields=["status"])
 
-    # Give the reserved stock back to each variant that still exists.
-    for item in order.items.select_related("variant"):
-        if item.variant is not None:
-            item.variant.stock_qty += item.quantity
-            item.variant.save(update_fields=["stock_qty"])
+    _restore_stock(order)
 
     OrderStatusHistory.objects.create(
         order=order,
@@ -161,3 +164,64 @@ def cancel_order(order, actor, reason=""):
     )
 
     return order
+
+
+# Which statuses an order may move to from each status. Delivered and Cancelled
+# are the end of the line. Staff move an order forward one step; a cancel can
+# happen from any step before Delivered.
+ALLOWED_TRANSITIONS = {
+    OrderStatus.PENDING: {OrderStatus.CONFIRMED, OrderStatus.CANCELLED},
+    OrderStatus.CONFIRMED: {OrderStatus.PROCESSING, OrderStatus.CANCELLED},
+    OrderStatus.PROCESSING: {OrderStatus.SHIPPED, OrderStatus.CANCELLED},
+    OrderStatus.SHIPPED: {OrderStatus.DELIVERED, OrderStatus.CANCELLED},
+    OrderStatus.DELIVERED: set(),
+    OrderStatus.CANCELLED: set(),
+}
+
+
+@transaction.atomic
+def change_status(order, new_status, actor, note=""):
+    """Move an order to a new status, following the allowed transitions.
+
+    Used by staff. A cancel needs a reason and restores stock; delivering a
+    Cash on Delivery order marks it Paid. Every change writes a history row.
+    """
+    if new_status not in ALLOWED_TRANSITIONS[order.status]:
+        raise OrderError(
+            f"An order cannot go from {order.get_status_display()} to "
+            f"{OrderStatus(new_status).label}."
+        )
+    if new_status == OrderStatus.CANCELLED and not note.strip():
+        raise OrderError("Please give a reason for cancelling the order.")
+
+    previous = order.status
+    order.status = new_status
+
+    # Delivered cash-on-delivery orders are paid in cash at the door.
+    if (
+        new_status == OrderStatus.DELIVERED
+        and order.payment_method == PaymentMethod.COD
+    ):
+        order.payment_status = PaymentStatus.PAID
+    order.save(update_fields=["status", "payment_status"])
+
+    # Cancelling frees the reserved stock.
+    if new_status == OrderStatus.CANCELLED:
+        _restore_stock(order)
+
+    OrderStatusHistory.objects.create(
+        order=order,
+        from_status=previous,
+        to_status=new_status,
+        changed_by=actor,
+        note=note,
+    )
+    return order
+
+
+def _restore_stock(order):
+    """Add each order line's quantity back to its variant's stock."""
+    for item in order.items.select_related("variant"):
+        if item.variant is not None:
+            item.variant.stock_qty += item.quantity
+            item.variant.save(update_fields=["stock_qty"])

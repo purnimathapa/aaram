@@ -141,6 +141,62 @@ class CancelTests(TestCase):
             services.cancel_order(self.order, self.user)
 
 
+class ChangeStatusTests(TestCase):
+    """Staff status transitions: allowed steps, cancel rules, COD paid."""
+
+    def setUp(self):
+        self.user, self.address, self.variant = make_world(stock=5)
+        self.staff = User.objects.create_user(
+            email="staff@example.com", password="pass12345", is_staff=True
+        )
+        CartItem.objects.create(user=self.user, variant=self.variant, quantity=2)
+        self.order = services.place_order(
+            self.user, self.address, "", Decimal("59000.00")
+        )
+
+    def test_allowed_forward_step(self):
+        services.change_status(self.order, OrderStatus.CONFIRMED, self.staff)
+        self.order.refresh_from_db()
+        self.assertEqual(self.order.status, OrderStatus.CONFIRMED)
+
+    def test_skipping_a_step_is_refused(self):
+        with self.assertRaises(services.OrderError):
+            services.change_status(self.order, OrderStatus.SHIPPED, self.staff)
+
+    def test_going_backward_is_refused(self):
+        services.change_status(self.order, OrderStatus.CONFIRMED, self.staff)
+        with self.assertRaises(services.OrderError):
+            services.change_status(self.order, OrderStatus.PENDING, self.staff)
+
+    def test_delivered_cod_is_marked_paid(self):
+        for status in [OrderStatus.CONFIRMED, OrderStatus.PROCESSING,
+                       OrderStatus.SHIPPED, OrderStatus.DELIVERED]:
+            services.change_status(self.order, status, self.staff)
+        self.order.refresh_from_db()
+        self.assertEqual(self.order.payment_status, "paid")
+
+    def test_cancel_needs_a_reason(self):
+        with self.assertRaises(services.OrderError):
+            services.change_status(self.order, OrderStatus.CANCELLED, self.staff, note="")
+
+    def test_staff_cancel_restores_stock(self):
+        services.change_status(self.order, OrderStatus.CONFIRMED, self.staff)
+        self.variant.refresh_from_db()
+        self.assertEqual(self.variant.stock_qty, 3)
+        services.change_status(
+            self.order, OrderStatus.CANCELLED, self.staff, note="Customer asked"
+        )
+        self.variant.refresh_from_db()
+        self.assertEqual(self.variant.stock_qty, 5)
+
+    def test_delivered_is_terminal(self):
+        for status in [OrderStatus.CONFIRMED, OrderStatus.PROCESSING,
+                       OrderStatus.SHIPPED, OrderStatus.DELIVERED]:
+            services.change_status(self.order, status, self.staff)
+        with self.assertRaises(services.OrderError):
+            services.change_status(self.order, OrderStatus.CANCELLED, self.staff, note="x")
+
+
 class CheckoutViewTests(TestCase):
     def setUp(self):
         self.user, self.address, self.variant = make_world(stock=5)
