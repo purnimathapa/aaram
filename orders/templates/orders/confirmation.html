@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load core_extras %}
+
+{% block title %}Order {{ order.order_number }} placed · AARAM{% endblock %}
+
+{% block content %}
+<section class="confirmation-page">
+  <div class="confirmation-card">
+    <span class="confirmation-check" aria-hidden="true">✓</span>
+    <h1>Thank you, your order is placed</h1>
+    <p class="confirmation-number">Order number <strong>{{ order.order_number }}</strong></p>
+    <p>We will call you to confirm before dispatch. Please keep
+      <strong>{{ order.total|npr }}</strong> ready to pay in cash on delivery.</p>
+    <div class="confirmation-actions">
+      <a class="btn btn-primary" href="{{ order.get_absolute_url }}">View this order</a>
+      <a class="btn btn-secondary" href="{% url 'catalog:catalogue' %}">Continue shopping</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

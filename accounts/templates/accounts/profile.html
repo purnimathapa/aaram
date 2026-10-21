@@ -17,6 +17,7 @@
   </form>
 
   <nav class="account-links" aria-label="Account">
+    <a href="{% url 'orders:list' %}">My orders</a>
     <a href="{% url 'accounts:address_list' %}">My addresses</a>
     <a href="{% url 'accounts:password_change' %}">Change password</a>
   </nav>

@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load core_extras %}
+
+{% block title %}Order {{ order.order_number }} · AARAM{% endblock %}
+
+{% block content %}
+<section class="order-detail-page">
+  <p class="breadcrumb"><a href="{% url 'orders:list' %}">My orders</a> / {{ order.order_number }}</p>
+
+  <header class="order-head">
+    <h1>Order {{ order.order_number }}</h1>
+    <p class="order-head-meta">Placed on {{ order.placed_at|date:"j M Y" }} · {{ order.get_payment_method_display }}</p>
+    <span class="order-status order-status-{{ order.status }}">{{ order.get_status_display }}</span>
+  </header>
+
+  <div class="order-detail-layout">
+    <div class="order-detail-main">
+      <section class="order-block">
+        <h2>Where your order is</h2>
+        <ol class="timeline">
+          {% for step in timeline %}
+          <li class="timeline-step timeline-{{ step.state }}">
+            <span class="timeline-dot" aria-hidden="true">{% if step.state == 'done' %}✓{% endif %}</span>
+            <span class="timeline-body">
+              <span class="timeline-title">{{ step.title }}</span>
+              <span class="timeline-note">{{ step.note }}</span>
+              {% if step.time %}<span class="timeline-time">{{ step.time|date:"j M Y, H:i" }}</span>{% endif %}
+            </span>
+          </li>
+          {% endfor %}
+        </ol>
+
+        {% if order.can_customer_cancel %}
+        <form class="order-cancel" method="post" action="{% url 'orders:cancel' order.order_number %}">
+          {% csrf_token %}
+          <button class="btn btn-secondary" type="submit">Cancel this order</button>
+          <span class="order-cancel-hint">You can cancel while the order is still Pending.</span>
+        </form>
+        {% elif order.status == 'cancelled' %}
+        <p class="order-note">This order was cancelled.</p>
+        {% else %}
+        <p class="order-note">This order is being prepared, so it can no longer be cancelled online. To change it, please call us.</p>
+        {% endif %}
+      </section>
+
+      <section class="order-block">
+        <h2>Items</h2>
+        <ul class="order-items">
+          {% for item in order.items.all %}
+          <li class="order-item">
+            <span class="order-item-name">{{ item.product_name }} × {{ item.quantity }}</span>
+            <span class="order-item-variant">{{ item.variant_label }} · SKU {{ item.sku }}</span>
+            <span class="order-item-price">{{ item.line_total|npr }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+        <div class="summary-row">
+          <span>Subtotal</span><span>{{ order.subtotal|npr }}</span>
+        </div>
+        <div class="summary-row">
+          <span>Delivery ({{ order.province_name }})</span><span>{{ order.delivery_charge|npr }}</span>
+        </div>
+        <div class="summary-row summary-total">
+          <span>Total</span><span>{{ order.total|npr }}</span>
+        </div>
+      </section>
+    </div>
+
+    <aside class="order-side">
+      <section class="order-block">
+        <h2>Payment</h2>
+        <p>{{ order.get_payment_method_display }} · <strong>{{ order.get_payment_status_display }}</strong></p>
+        {% if order.payment_status == 'unpaid' %}
+        <p class="order-note">Please keep {{ order.total|npr }} ready for the delivery person.</p>
+        {% endif %}
+      </section>
+
+      <section class="order-block">
+        <h2>Delivering to</h2>
+        <p class="order-address">
+          {{ order.recipient }} · {{ order.phone }}<br>
+          {{ order.street_tole }}, Ward {{ order.ward_no }}, {{ order.municipality }}, {{ order.district }}, {{ order.province_name }}
+          {% if order.landmark %}<br>Landmark: {{ order.landmark }}{% endif %}
+        </p>
+        {% if order.delivery_note %}
+        <p class="order-note">Note: {{ order.delivery_note }}</p>
+        {% endif %}
+      </section>
+    </aside>
+  </div>
+</section>
+{% endblock %}
