@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load core_extras %}
+
+{% block title %}My orders · AARAM{% endblock %}
+
+{% block content %}
+<section class="orders-page">
+  <h1 class="page-title">My orders</h1>
+
+  {% if orders %}
+  <ul class="order-list">
+    {% for order in orders %}
+    <li class="order-row">
+      <a class="order-row-link" href="{{ order.get_absolute_url }}">
+        <span class="order-row-number">{{ order.order_number }}</span>
+        <span class="order-row-date">{{ order.placed_at|date:"j M Y" }}</span>
+        <span class="order-status order-status-{{ order.status }}">{{ order.get_status_display }}</span>
+        <span class="order-row-total">{{ order.total|npr }}</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <div class="empty">
+    <p>You have not placed any orders yet.</p>
+    <a class="btn btn-primary" href="{% url 'catalog:catalogue' %}">Browse mattresses</a>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load core_extras static %}
+
+{% block title %}Checkout · AARAM{% endblock %}
+
+{% block content %}
+<section class="checkout-page">
+  <h1 class="page-title">Checkout</h1>
+
+  {% if not addresses %}
+  {# A customer needs at least one address before they can check out. #}
+  <div class="checkout-noaddress">
+    <p>Add a delivery address to continue.</p>
+    <a class="btn btn-primary" href="{% url 'accounts:address_add' %}?next={% url 'orders:checkout' %}">Add an address</a>
+  </div>
+  {% else %}
+
+  <form class="checkout-layout" method="post" action="{% url 'orders:place' %}" data-checkout>
+    {% csrf_token %}
+
+    <div class="checkout-main">
+      <fieldset class="checkout-block">
+        <legend>Delivery address</legend>
+        {% for address in addresses %}
+        <label class="address-option">
+          <input type="radio" name="address" value="{{ address.id }}" data-charge="{{ address.province.delivery_charge|floatformat:0 }}"{% if address.id == selected.id %} checked{% endif %}>
+          <span class="address-body">
+            <span class="address-recipient">{{ address.recipient }} · {{ address.phone }}</span>
+            <span class="address-lines">{{ address.street_tole }}, Ward {{ address.ward_no }}, {{ address.municipality }}, {{ address.district }}, {{ address.province.name }}</span>
+            {% if address.landmark %}<span class="address-landmark">Landmark: {{ address.landmark }}</span>{% endif %}
+            {% if not address.province.is_serviceable %}<span class="address-warning">We do not deliver to this province yet.</span>{% endif %}
+          </span>
+          <a class="address-edit" href="{% url 'accounts:address_edit' address.id %}">Edit</a>
+        </label>
+        {% endfor %}
+        <a class="address-add" href="{% url 'accounts:address_add' %}?next={% url 'orders:checkout' %}">+ Add a new address</a>
+      </fieldset>
+
+      <fieldset class="checkout-block">
+        <legend>Payment</legend>
+        <label class="pay-option">
+          <input type="radio" name="payment_method" value="cod" checked>
+          <span class="pay-body">
+            <span class="pay-name">Cash on Delivery</span>
+            <span class="pay-note">Pay in cash when your mattress arrives. We call you to confirm before dispatch.</span>
+          </span>
+        </label>
+        <label class="pay-option pay-disabled">
+          <input type="radio" name="payment_method" value="khalti" disabled>
+          <span class="pay-body">
+            <span class="pay-name">Khalti <span class="pay-soon">Available soon</span></span>
+            <span class="pay-note">Online payment with Khalti is added in a later phase.</span>
+          </span>
+        </label>
+      </fieldset>
+
+      <fieldset class="checkout-block">
+        <legend>Note for delivery (optional)</legend>
+        <textarea class="checkout-note" name="delivery_note" rows="2" maxlength="300" placeholder="Anything the delivery person should know"></textarea>
+      </fieldset>
+    </div>
+
+    <aside class="checkout-summary" aria-label="Order summary" data-subtotal="{{ subtotal|floatformat:0 }}">
+      <h2 class="checkout-summary-title">Your order</h2>
+
+      <ul class="summary-items">
+        {% for line in lines %}
+        <li class="summary-item">
+          <span class="summary-item-name">{{ line.variant.product.name }}</span>
+          <span class="summary-item-variant">{{ line.variant.size.name }} · {{ line.variant.thickness_in }} in · Qty {{ line.quantity }}</span>
+          <span class="summary-item-price">{{ line.line_total|npr }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span>{{ subtotal|npr }}</span>
+      </div>
+      <div class="summary-row">
+        <span>Delivery{% if selected %} to {{ selected.province.name }}{% endif %}</span>
+        <span id="summary-delivery">{% if delivery_charge is not None %}{{ delivery_charge|npr }}{% else %}—{% endif %}</span>
+      </div>
+      <div class="summary-row summary-total">
+        <span>Total</span>
+        <span id="summary-total">{% if total is not None %}{{ total|npr }}{% else %}—{% endif %}</span>
+      </div>
+
+      {# The server adds up the prices again when the order is placed. #}
+      <input type="hidden" name="expected_subtotal" value="{{ expected_subtotal|floatformat:2 }}">
+
+      <button class="btn btn-primary checkout-place" type="submit"{% if not selected or not selected.province.is_serviceable %} disabled{% endif %}>Place order</button>
+      <p class="checkout-reassure">We check the price and stock again when you place the order, so you always pay what you see here.</p>
+    </aside>
+  </form>
+  {% endif %}
+</section>
+
+<script id="address-data" type="application/json">{{ address_data_json|safe }}</script>
+<script src="{% static 'js/checkout.js' %}" defer></script>
+{% endblock %}

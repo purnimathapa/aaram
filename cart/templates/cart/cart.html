@@ -55,7 +55,7 @@
         <span>{{ subtotal|npr }}</span>
       </div>
       <p class="cart-summary-note">Delivery is added at checkout once you choose an address.</p>
-      <a class="btn btn-primary cart-checkout" href="#">Proceed to checkout</a>
+      <a class="btn btn-primary cart-checkout" href="{% url 'orders:checkout' %}">Proceed to checkout</a>
       <a class="cart-continue" href="{% url 'catalog:catalogue' %}">Continue shopping</a>
     </aside>
   </div>
