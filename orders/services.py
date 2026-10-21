@@ -14,6 +14,7 @@ from django.db import transaction
 
 from cart.models import CartItem
 from catalog.models import ProductVariant
+from core.emails import send_order_placed_email, send_order_status_email
 
 from .models import (
     Order,
@@ -136,6 +137,9 @@ def place_order(user, address, delivery_note, expected_subtotal):
     # 9. The cart is now an order, so empty it.
     CartItem.objects.filter(user=user).delete()
 
+    # Confirmation email, sent only once this transaction commits.
+    send_order_placed_email(order)
+
     return order
 
 
@@ -216,6 +220,10 @@ def change_status(order, new_status, actor, note=""):
         changed_by=actor,
         note=note,
     )
+
+    # Tell the customer, after this transaction commits.
+    send_order_status_email(order)
+
     return order
 
 

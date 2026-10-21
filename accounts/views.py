@@ -10,6 +10,8 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
+from core.emails import send_welcome_email
+
 from .forms import AddressForm, ProfileForm, RegisterForm
 from .models import Address
 from .services import save_address
@@ -21,6 +23,7 @@ def register(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
+            send_welcome_email(user)
             login(request, user)
             messages.success(request, "Welcome to AARAM. Your account is ready.")
             return redirect("accounts:profile")
