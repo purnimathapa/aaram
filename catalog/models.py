@@ -86,6 +86,11 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        from django.urls import reverse
+
+        return reverse("catalog:product_detail", args=[self.slug])
+
     @property
     def active_variants(self):
         """Active variants, using the prefetched list when there is one."""

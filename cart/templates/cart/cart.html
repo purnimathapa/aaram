@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load core_extras static %}
+
+{% block title %}Your cart · AARAM{% endblock %}
+
+{% block content %}
+<section class="cart-page">
+  <h1 class="page-title">Your cart</h1>
+
+  {% if rows %}
+  <div class="cart-layout">
+    <div class="cart-lines">
+      {% for row in rows %}
+      {% with item=row.item %}
+      <article class="cart-line">
+        <a class="cart-line-thumb" href="{{ item.variant.product.get_absolute_url }}">
+          {% include "partials/layer_illustration.html" with comfort=item.variant.product.category.comfort_color core=item.variant.product.category.core_color %}
+        </a>
+
+        <div class="cart-line-main">
+          <a class="cart-line-name" href="{{ item.variant.product.get_absolute_url }}">{{ item.variant.product.name }}</a>
+          <p class="cart-line-variant">{{ item.variant.size.name }} · {{ item.variant.thickness_in }} in thick</p>
+          <p class="cart-line-unit">{{ item.variant.price|npr }} each</p>
+          {% if row.warning %}
+          <p class="cart-line-warning">{{ row.warning }}</p>
+          {% endif %}
+        </div>
+
+        <form class="cart-qty" method="post" action="{% url 'cart:update' item.pk %}">
+          {% csrf_token %}
+          <label class="visually-hidden" for="qty-{{ item.pk }}">Quantity</label>
+          <select class="cart-qty-select" id="qty-{{ item.pk }}" name="quantity">
+            {% for n in row.choices %}
+            <option value="{{ n }}"{% if n == item.quantity %} selected{% endif %}>{{ n }}</option>
+            {% endfor %}
+          </select>
+          <noscript><button class="btn btn-secondary btn-small" type="submit">Update</button></noscript>
+        </form>
+
+        <div class="cart-line-total">{{ item.line_total|npr }}</div>
+
+        <form class="cart-remove" method="post" action="{% url 'cart:remove' item.pk %}">
+          {% csrf_token %}
+          <button class="link-button" type="submit" aria-label="Remove {{ item.variant.product.name }} from cart">Remove</button>
+        </form>
+      </article>
+      {% endwith %}
+      {% endfor %}
+    </div>
+
+    <aside class="cart-summary" aria-label="Cart summary">
+      <h2 class="cart-summary-title">Summary</h2>
+      <div class="cart-summary-row">
+        <span>Subtotal</span>
+        <span>{{ subtotal|npr }}</span>
+      </div>
+      <p class="cart-summary-note">Delivery is added at checkout once you choose an address.</p>
+      <a class="btn btn-primary cart-checkout" href="#">Proceed to checkout</a>
+      <a class="cart-continue" href="{% url 'catalog:catalogue' %}">Continue shopping</a>
+    </aside>
+  </div>
+  {% else %}
+  <div class="cart-empty">
+    <p>Your cart is empty.</p>
+    <a class="btn btn-primary" href="{% url 'catalog:catalogue' %}">Browse mattresses</a>
+  </div>
+  {% endif %}
+</section>
+
+<script src="{% static 'js/cart.js' %}" defer></script>
+{% endblock %}

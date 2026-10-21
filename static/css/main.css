@@ -1,5 +1,6 @@
 /* AARAM stylesheet. Sections: base, layout, buttons, header, hero, messages,
-   footer. Tokens live in tokens.css. No framework, no inline styles. */
+   footer, forms, catalogue, product detail, cart. Tokens live in tokens.css.
+   No framework, no inline styles. */
 
 /* ---------- Base ---------- */
 * {
@@ -1484,6 +1485,179 @@ img {
   border-bottom: 1px solid var(--line);
 }
 
+/* ---------- Add to cart (product page) ---------- */
+.add-to-cart {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.add-qty-label {
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.add-qty-input {
+  width: 72px;
+  min-height: 48px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--line-strong);
+  border-radius: var(--radius-input);
+  font: inherit;
+  text-align: center;
+}
+
+.add-to-cart-button {
+  flex: 1;
+}
+
+.add-to-cart-button:disabled {
+  background: var(--surface-2);
+  border-color: var(--line-strong);
+  color: var(--subtle);
+  cursor: not-allowed;
+}
+
+/* ---------- Cart page ---------- */
+.cart-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: var(--space-8);
+  align-items: start;
+}
+
+.cart-lines {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.cart-line {
+  display: grid;
+  grid-template-columns: 72px 1fr auto auto auto;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+}
+
+.cart-line-thumb {
+  display: block;
+  width: 72px;
+}
+
+.cart-line-name {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.cart-line-name:hover {
+  text-decoration: underline;
+}
+
+.cart-line-variant {
+  margin: 2px 0 0;
+  color: var(--muted);
+}
+
+.cart-line-unit {
+  margin: 2px 0 0;
+  color: var(--subtle);
+  font-size: 0.9rem;
+}
+
+.cart-line-warning {
+  margin: var(--space-2) 0 0;
+  color: var(--warn);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.cart-qty-select {
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1.5px solid var(--line-strong);
+  border-radius: var(--radius-input);
+  font: inherit;
+  background: var(--surface);
+}
+
+.cart-line-total {
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--muted);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.link-button:hover {
+  color: var(--bad);
+}
+
+.btn-small {
+  min-height: 40px;
+  padding: 8px 16px;
+}
+
+.cart-summary {
+  padding: var(--space-6);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  position: sticky;
+  top: var(--space-6);
+}
+
+.cart-summary-title {
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-heading);
+}
+
+.cart-summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.cart-summary-note {
+  margin: var(--space-3) 0 var(--space-6);
+  color: var(--subtle);
+  font-size: 0.9rem;
+}
+
+.cart-checkout {
+  width: 100%;
+}
+
+.cart-continue {
+  display: block;
+  text-align: center;
+  margin-top: var(--space-4);
+  color: var(--accent);
+}
+
+.cart-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  color: var(--muted);
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 640px) {
   .hero h1 {
@@ -1492,6 +1666,45 @@ img {
 
   .search-input {
     width: 120px;
+  }
+
+  .cart-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .cart-summary {
+    position: static;
+  }
+
+  .cart-line {
+    grid-template-columns: 56px 1fr auto;
+    grid-template-areas:
+      "thumb main total"
+      "thumb qty remove";
+    row-gap: var(--space-2);
+  }
+
+  .cart-line-thumb {
+    grid-area: thumb;
+    width: 56px;
+  }
+
+  .cart-line-main {
+    grid-area: main;
+  }
+
+  .cart-line-total {
+    grid-area: total;
+    text-align: right;
+  }
+
+  .cart-qty {
+    grid-area: qty;
+  }
+
+  .cart-remove {
+    grid-area: remove;
+    justify-self: end;
   }
 }
 

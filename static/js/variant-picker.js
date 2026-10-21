@@ -47,6 +47,31 @@
     var statusEl = document.getElementById("variant-status");
     var coreEl = document.getElementById("illustration-core");
 
+    // Add-to-cart controls (absent for logged-out visitors).
+    var variantInput = document.getElementById("add-variant");
+    var qtyInput = document.getElementById("add-qty");
+    var addButton = document.getElementById("add-button");
+    // The per-line cap set by the server; stock may lower the effective max.
+    var perLineCap = qtyInput ? parseInt(qtyInput.max, 10) || 1 : 1;
+
+    function updateAddToCart(data) {
+      if (variantInput) {
+        variantInput.value = data ? data.id : "";
+      }
+      if (qtyInput) {
+        var cap = data ? Math.min(data.stock, perLineCap) : 0;
+        qtyInput.max = cap;
+        if (parseInt(qtyInput.value, 10) > cap) {
+          qtyInput.value = cap > 0 ? cap : 1;
+        }
+      }
+      if (addButton) {
+        var soldOut = !data || data.stock <= 0;
+        addButton.disabled = soldOut;
+        addButton.textContent = soldOut ? "Out of stock" : "Add to cart";
+      }
+    }
+
     function currentKey() {
       var size = form.querySelector('input[name="size"]:checked');
       var thickness = form.querySelector('input[name="thickness"]:checked');
@@ -68,6 +93,7 @@
           statusEl.textContent = "Not available";
           statusEl.className = "stock-pill stock-bad";
         }
+        updateAddToCart(null);
         return;
       }
       if (priceEl) {
@@ -80,6 +106,7 @@
         statusEl.textContent = data.status_text;
         statusEl.className = "stock-pill stock-" + data.status_modifier;
       }
+      updateAddToCart(data);
     }
 
     form.addEventListener("change", update);
