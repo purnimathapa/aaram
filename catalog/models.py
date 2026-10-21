@@ -102,6 +102,19 @@ class Product(models.Model):
         return len({v.size_id for v in self.active_variants})
 
     @property
+    def review_summary(self):
+        """Average rating and count from the visible reviews.
+
+        Computed from the prefetched reviews, so a product list that prefetches
+        them shows ratings without an extra query per product.
+        """
+        visible = [r for r in self.reviews.all() if r.is_visible]
+        if not visible:
+            return {"count": 0, "average": None}
+        average = sum(r.rating for r in visible) / len(visible)
+        return {"count": len(visible), "average": round(average, 1)}
+
+    @property
     def card_stock(self):
         """A coarse stock label for the product card (not per size)."""
         total = sum(v.stock_qty for v in self.active_variants)

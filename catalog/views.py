@@ -8,10 +8,12 @@ view can be bookmarked and shared and works without JavaScript.
 import json
 
 from django.core.paginator import Paginator
-from django.db.models import Min, Prefetch, Q
+from django.db.models import Avg, Count, Min, Prefetch, Q
 from django.shortcuts import get_object_or_404, render
 
 from core.models import Province, StoreSettings
+from reviews.forms import ReviewForm
+from reviews.services import can_review
 
 from .models import Category, Product, ProductVariant, Size
 
@@ -50,7 +52,10 @@ def catalogue(request):
     products = (
         Product.objects.filter(is_active=True)
         .select_related("category")
-        .prefetch_related(Prefetch("variants", queryset=active_variants.select_related("size")))
+        .prefetch_related(
+            Prefetch("variants", queryset=active_variants.select_related("size")),
+            "reviews",  # for the average rating shown on each card
+        )
         # Lowest active price per product, used for display and price sorting.
         .annotate(min_price=Min("variants__price", filter=Q(variants__is_active=True)))
     )
@@ -204,6 +209,12 @@ def product_detail(request, slug):
     # Default the delivery box to the first serviceable province.
     default_province = next((p for p in provinces if p.is_serviceable), None)
 
+    # Visible reviews, their average and count, and whether this user may review.
+    reviews = list(product.reviews.filter(is_visible=True).select_related("user"))
+    rating = product.reviews.filter(is_visible=True).aggregate(
+        average=Avg("rating"), count=Count("id")
+    )
+
     context = {
         "product": product,
         "sizes": sizes,
@@ -217,5 +228,10 @@ def product_detail(request, slug):
         "provinces": provinces,
         "province_data_json": json.dumps(province_data),
         "default_province": default_province,
+        "reviews": reviews,
+        "avg_rating": rating["average"],
+        "review_count": rating["count"],
+        "can_review": can_review(request.user, product),
+        "review_form": ReviewForm(),
     }
     return render(request, "catalog/product_detail.html", context)

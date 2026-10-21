@@ -127,6 +127,53 @@
   </dl>
 </section>
 
+<section class="product-reviews" aria-labelledby="reviews-h">
+  <div class="reviews-head">
+    <h2 id="reviews-h">Reviews</h2>
+    {% if review_count %}
+    <p class="reviews-average">
+      <span class="reviews-score">{{ avg_rating|floatformat:1 }}</span> / 5
+      · {{ review_count }} review{{ review_count|pluralize }}
+    </p>
+    {% else %}
+    <p class="reviews-average">No reviews yet.</p>
+    {% endif %}
+  </div>
+
+  {% if can_review %}
+  <form class="review-form" method="post" action="{% url 'reviews:add' product.slug %}">
+    {% csrf_token %}
+    <h3>Write a review</h3>
+    {% for field in review_form %}
+    <div class="form-field">
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+      {{ field }}
+      {% if field.errors %}<p class="field-error">{{ field.errors|join:", " }}</p>{% endif %}
+    </div>
+    {% endfor %}
+    <button class="btn btn-primary" type="submit">Submit review</button>
+  </form>
+  {% endif %}
+
+  {% if reviews %}
+  <ul class="review-list">
+    {% for review in reviews %}
+    <li class="review">
+      <div class="review-top">
+        <span class="review-stars" aria-label="{{ review.rating }} out of 5">
+          {% for n in firmness_scale %}<span class="review-star{% if n <= review.rating %} on{% endif %}">★</span>{% endfor %}
+        </span>
+        <span class="review-author">{{ review.user.first_name|default:"Customer" }}</span>
+        <span class="review-date">{{ review.created_at|date:"j M Y" }}</span>
+      </div>
+      <p class="review-title">{{ review.title }}</p>
+      <p class="review-body">{{ review.body }}</p>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</section>
+
 <script id="variant-data" type="application/json">{{ variant_data_json|safe }}</script>
 <script id="province-data" type="application/json">{{ province_data_json|safe }}</script>
 <script src="{% static 'js/variant-picker.js' %}" defer></script>

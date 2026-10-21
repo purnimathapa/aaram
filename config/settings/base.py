@@ -85,6 +85,10 @@ LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "accounts:profile"
 LOGOUT_REDIRECT_URL = "core:home"
 
+# The "from" address on store emails. The backend itself is set per environment
+# (console in dev, SMTP in prod).
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="AARAM <noreply@aaram.com.np>")
+
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "Asia/Kathmandu"
 USE_I18N = True

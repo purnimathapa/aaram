@@ -20,4 +20,7 @@ urlpatterns = [
     path("inventory/<int:pk>/adjust/", views.inventory_adjust, name="inventory_adjust"),
 
     path("customers/", views.customer_list, name="customer_list"),
+
+    path("reviews/", views.review_list, name="review_list"),
+    path("reviews/<int:pk>/toggle/", views.review_toggle, name="review_toggle"),
 ]

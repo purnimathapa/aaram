@@ -1,0 +1,18 @@
+AARAM
+
+Namaste {{ order.recipient }},
+
+Thank you for your order. We have received it and will call you to confirm
+before dispatch.
+
+Order number: {{ order.order_number }}
+Payment: {{ order.get_payment_method_display }}
+Total to pay on delivery: Rs. {{ order.total }}
+
+Delivering to:
+{{ order.street_tole }}, Ward {{ order.ward_no }}, {{ order.municipality }},
+{{ order.district }}, {{ order.province_name }}
+
+You can see your order any time under My orders on the website.
+
+The AARAM team

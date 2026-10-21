@@ -20,6 +20,7 @@ from catalog.models import Product, ProductVariant
 from core.models import StoreSettings
 from orders import services
 from orders.models import Order, OrderStatus, PaymentStatus
+from reviews.models import Review
 
 from .forms import ImageFormSet, ProductForm, VariantFormSet
 from .permissions import staff_required
@@ -292,3 +293,27 @@ def customer_list(request):
         .order_by("-date_joined")
     )
     return render(request, "dashboard/customer_list.html", {"customers": customers, "active": "customers"})
+
+
+# ---------- Reviews ----------
+
+@staff_required
+def review_list(request):
+    """All reviews, newest first, with a button to hide or show each one."""
+    reviews = Review.objects.select_related("user", "product").order_by("-created_at")
+    return render(request, "dashboard/review_list.html", {"reviews": reviews, "active": "reviews"})
+
+
+@staff_required
+def review_toggle(request, pk):
+    """Hide a visible review or show a hidden one (POST only)."""
+    if request.method != "POST":
+        return redirect("dashboard:review_list")
+    review = get_object_or_404(Review, pk=pk)
+    review.is_visible = not review.is_visible
+    review.save(update_fields=["is_visible"])
+    messages.success(
+        request,
+        "Review shown." if review.is_visible else "Review hidden.",
+    )
+    return redirect("dashboard:review_list")

@@ -1,0 +1,33 @@
+{% extends "dashboard/base_staff.html" %}
+{% block title %}Reviews · AARAM staff{% endblock %}
+
+{% block staff_content %}
+<section class="staff-page">
+  <h1>Reviews</h1>
+
+  {% if reviews %}
+  <table class="staff-table">
+    <thead><tr><th>Product</th><th>Rating</th><th>Review</th><th>By</th><th>Shown</th><th></th></tr></thead>
+    <tbody>
+      {% for review in reviews %}
+      <tr>
+        <td>{{ review.product.name }}</td>
+        <td>{{ review.rating }}/5</td>
+        <td><strong>{{ review.title }}</strong><br><span class="review-cell-body">{{ review.body }}</span></td>
+        <td>{{ review.user.first_name|default:review.user.email }}</td>
+        <td>{% if review.is_visible %}Yes{% else %}<span class="order-status order-status-cancelled">Hidden</span>{% endif %}</td>
+        <td>
+          <form method="post" action="{% url 'dashboard:review_toggle' review.pk %}">
+            {% csrf_token %}
+            <button class="btn btn-secondary btn-small" type="submit">{% if review.is_visible %}Hide{% else %}Show{% endif %}</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="empty">No reviews yet.</p>
+  {% endif %}
+</section>
+{% endblock %}

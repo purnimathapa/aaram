@@ -1,0 +1,9 @@
+AARAM
+
+Namaste {{ user.first_name|default:"there" }},
+
+Welcome to AARAM. Your account is ready, so you can now browse our mattresses,
+save delivery addresses and place orders with Cash on Delivery.
+
+Sleep well,
+The AARAM team

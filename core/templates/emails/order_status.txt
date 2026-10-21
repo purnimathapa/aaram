@@ -1,0 +1,11 @@
+AARAM
+
+Namaste {{ order.recipient }},
+
+Your order {{ order.order_number }} is now: {{ order.get_status_display }}.
+
+{% if order.status == "cancelled" %}If you did not expect this, please call us.
+{% else %}We will keep you updated as it moves along.{% endif %}
+You can follow your order under My orders on the website.
+
+The AARAM team
