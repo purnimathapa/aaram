@@ -16,6 +16,7 @@ public footer. Each page sets `active` to highlight its link and fills
       <a href="{% url 'dashboard:product_list' %}"{% if active == 'products' %} class="active"{% endif %}>Products</a>
       <a href="{% url 'dashboard:inventory' %}"{% if active == 'inventory' %} class="active"{% endif %}>Inventory</a>
       <a href="{% url 'dashboard:customer_list' %}"{% if active == 'customers' %} class="active"{% endif %}>Customers</a>
+      <a href="{% url 'dashboard:review_list' %}"{% if active == 'reviews' %} class="active"{% endif %}>Reviews</a>
       <a href="{% url 'admin:index' %}">Store settings</a>
       <a href="{% url 'core:home' %}">View shop</a>
     </nav>
