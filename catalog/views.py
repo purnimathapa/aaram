@@ -11,7 +11,7 @@ from django.core.paginator import Paginator
 from django.db.models import Min, Prefetch, Q
 from django.shortcuts import get_object_or_404, render
 
-from core.models import Province
+from core.models import Province, StoreSettings
 
 from .models import Category, Product, ProductVariant, Size
 
@@ -158,6 +158,7 @@ def product_detail(request, slug):
     for variant in variants:
         text, modifier = _variant_status(variant.stock_qty)
         variant_data[f"{variant.size_id}-{variant.thickness_in}"] = {
+            "id": variant.id,
             "price": int(variant.price),
             "sku": variant.sku,
             "stock": variant.stock_qty,
@@ -190,6 +191,8 @@ def product_detail(request, slug):
 
     selected_status = _variant_status(selected.stock_qty) if selected else ("", "")
 
+    max_qty_per_line = StoreSettings.load().max_qty_per_line
+
     provinces = list(Province.objects.all())
     province_data = {
         p.name: {
@@ -208,6 +211,7 @@ def product_detail(request, slug):
         "selected": selected,
         "selected_status_text": selected_status[0],
         "selected_status_modifier": selected_status[1],
+        "max_qty_per_line": max_qty_per_line,
         "firmness_scale": [1, 2, 3, 4, 5],
         "variant_data_json": json.dumps(variant_data),
         "provinces": provinces,
