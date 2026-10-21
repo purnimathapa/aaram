@@ -47,3 +47,20 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"
     },
 }
+
+# The live site is served over HTTPS at these hosts; Django needs them listed to
+# accept form POSTs (CSRF). Example: https://aaram.up.railway.app
+CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=[])
+
+# Uploaded product images. If an S3-compatible bucket is configured (for example
+# Cloudflare R2), store media there; otherwise fall back to the local disk. R2 is
+# used because its free tier has no egress fees for serving images.
+if env("AWS_STORAGE_BUCKET_NAME", default=""):
+    STORAGES["default"] = {"BACKEND": "storages.backends.s3.S3Storage"}
+    AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
+    AWS_S3_ACCESS_KEY_ID = env("AWS_S3_ACCESS_KEY_ID", default="")
+    AWS_S3_SECRET_ACCESS_KEY = env("AWS_S3_SECRET_ACCESS_KEY", default="")
+    AWS_S3_ENDPOINT_URL = env("AWS_S3_ENDPOINT_URL", default="")  # the R2 endpoint
+    AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME", default="auto")
+    AWS_S3_CUSTOM_DOMAIN = env("AWS_S3_CUSTOM_DOMAIN", default="")  # public media host
+    AWS_QUERYSTRING_AUTH = False  # media URLs are public, no signing needed
