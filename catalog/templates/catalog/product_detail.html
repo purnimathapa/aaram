@@ -77,6 +77,20 @@
         <button class="btn btn-secondary" type="submit">Show price for this size</button>
       </noscript>
     </form>
+
+    {% if user.is_authenticated %}
+    <form class="add-to-cart" method="post" action="{% url 'cart:add' %}">
+      {% csrf_token %}
+      <input type="hidden" name="variant" id="add-variant" value="{{ selected.id }}">
+      <label class="add-qty-label" for="add-qty">Quantity</label>
+      <input class="add-qty-input" type="number" id="add-qty" name="quantity" value="1" min="1" max="{{ max_qty_per_line }}" inputmode="numeric">
+      <button class="btn btn-primary add-to-cart-button" id="add-button" type="submit"{% if selected.stock_qty <= 0 %} disabled{% endif %}>
+        {% if selected.stock_qty <= 0 %}Out of stock{% else %}Add to cart{% endif %}
+      </button>
+    </form>
+    {% else %}
+    <a class="btn btn-primary add-to-cart-button" href="{% url 'accounts:login' %}?next={{ product.get_absolute_url }}">Log in to add to cart</a>
+    {% endif %}
     {% else %}
     <p class="empty">This mattress has no sizes available right now.</p>
     {% endif %}

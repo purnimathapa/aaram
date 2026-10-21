@@ -27,7 +27,8 @@
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>
   </a>
 
-  <a class="cart-link" href="#" aria-label="Cart">
+  <a class="cart-link" href="{% url 'cart:detail' %}" aria-label="Cart{% if cart_count %}, {{ cart_count }} item{{ cart_count|pluralize }}{% endif %}">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.2 12H6.2L5 8z"></path><path d="M9 8V6a3 3 0 0 1 6 0v2"></path></svg>
+    {% if cart_count %}<span class="cart-count">{{ cart_count }}</span>{% endif %}
   </a>
 </header>
