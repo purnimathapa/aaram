@@ -1,0 +1,90 @@
+{% extends "dashboard/base_staff.html" %}
+{% load core_extras %}
+{% block title %}Order {{ order.order_number }} · AARAM staff{% endblock %}
+
+{% block staff_content %}
+<section class="staff-page">
+  <p class="breadcrumb"><a href="{% url 'dashboard:order_list' %}">Orders</a> / {{ order.order_number }}</p>
+
+  <div class="order-head">
+    <h1>Order {{ order.order_number }}</h1>
+    <p class="order-head-meta">Placed {{ order.placed_at|date:"j M Y, H:i" }} · {{ order.get_payment_method_display }} · {{ order.get_payment_status_display }}</p>
+    <span class="order-status order-status-{{ order.status }}">{{ order.get_status_display }}</span>
+  </div>
+
+  <div class="order-detail-layout">
+    <div class="order-detail-main">
+      <section class="staff-card">
+        <h2>Status actions</h2>
+        {% if next_status or can_cancel %}
+        <div class="status-actions">
+          {% if next_status %}
+          <form method="post" action="{% url 'dashboard:order_status' order.order_number %}">
+            {% csrf_token %}
+            <input type="hidden" name="new_status" value="{{ next_status }}">
+            <button class="btn btn-primary" type="submit">{{ next_label }}</button>
+          </form>
+          {% endif %}
+          {% if can_cancel %}
+          <form class="cancel-form" method="post" action="{% url 'dashboard:order_status' order.order_number %}">
+            {% csrf_token %}
+            <input type="hidden" name="new_status" value="cancelled">
+            <label for="cancel-reason">Reason for cancelling</label>
+            <input type="text" id="cancel-reason" name="note" maxlength="300" required>
+            <button class="btn btn-secondary" type="submit">Cancel order</button>
+          </form>
+          {% endif %}
+        </div>
+        {% else %}
+        <p class="order-note">This order is {{ order.get_status_display|lower }}; there are no further actions.</p>
+        {% endif %}
+      </section>
+
+      <section class="staff-card">
+        <h2>Items</h2>
+        <ul class="order-items">
+          {% for item in order.items.all %}
+          <li class="order-item">
+            <span class="order-item-name">{{ item.product_name }} × {{ item.quantity }}</span>
+            <span class="order-item-variant">{{ item.variant_label }} · SKU {{ item.sku }}</span>
+            <span class="order-item-price">{{ item.line_total|npr }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+        <div class="summary-row"><span>Subtotal</span><span>{{ order.subtotal|npr }}</span></div>
+        <div class="summary-row"><span>Delivery ({{ order.province_name }})</span><span>{{ order.delivery_charge|npr }}</span></div>
+        <div class="summary-row summary-total"><span>Total</span><span>{{ order.total|npr }}</span></div>
+      </section>
+
+      <section class="staff-card">
+        <h2>History</h2>
+        <ul class="history-list">
+          {% for row in order.history.all %}
+          <li>
+            <span class="history-change">{{ row.get_to_status_display }}</span>
+            <span class="history-meta">{{ row.changed_at|date:"j M Y, H:i" }}{% if row.changed_by %} · {{ row.changed_by.first_name|default:row.changed_by.email }}{% endif %}</span>
+            {% if row.note %}<span class="history-note">{{ row.note }}</span>{% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+      </section>
+    </div>
+
+    <aside class="order-side">
+      <section class="staff-card">
+        <h2>Customer</h2>
+        <p>{{ order.user.first_name }} {{ order.user.last_name }}<br>{{ order.user.email }}</p>
+      </section>
+      <section class="staff-card">
+        <h2>Delivering to</h2>
+        <p class="order-address">
+          {{ order.recipient }} · {{ order.phone }}<br>
+          {{ order.street_tole }}, Ward {{ order.ward_no }}, {{ order.municipality }}, {{ order.district }}, {{ order.province_name }}
+          {% if order.landmark %}<br>Landmark: {{ order.landmark }}{% endif %}
+        </p>
+        {% if order.delivery_note %}<p class="order-note">Note: {{ order.delivery_note }}</p>{% endif %}
+      </section>
+    </aside>
+  </div>
+</section>
+{% endblock %}

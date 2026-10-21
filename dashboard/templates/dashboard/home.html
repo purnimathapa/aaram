@@ -1,0 +1,111 @@
+{% extends "dashboard/base_staff.html" %}
+{% load core_extras %}
+{% block title %}Staff dashboard · AARAM{% endblock %}
+
+{% block staff_content %}
+<section class="staff-page">
+  <div class="staff-page-head">
+    <h1>Dashboard</h1>
+    <form class="period-filter" method="get">
+      <label for="period">Period</label>
+      <select id="period" name="period" data-autosubmit>
+        <option value="month"{% if period == 'month' %} selected{% endif %}>This month</option>
+        <option value="7days"{% if period == '7days' %} selected{% endif %}>Last 7 days</option>
+        <option value="today"{% if period == 'today' %} selected{% endif %}>Today</option>
+      </select>
+      <noscript><button type="submit">Apply</button></noscript>
+    </form>
+  </div>
+
+  <div class="kpi-grid">
+    {% for kpi in kpis %}
+    <div class="kpi-tile">
+      <span class="kpi-label">{{ kpi.label }}</span>
+      <span class="kpi-value">{% if kpi.money %}{{ kpi.value|npr }}{% else %}{{ kpi.value }}{% endif %}</span>
+      <span class="kpi-sub">{{ kpi.sub }}</span>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="staff-columns">
+    <section class="staff-card">
+      <div class="staff-card-head">
+        <h2>Recent orders</h2>
+        <a href="{% url 'dashboard:order_list' %}">All orders</a>
+      </div>
+      {% if recent_orders %}
+      <table class="staff-table">
+        <thead><tr><th>Order</th><th>Customer</th><th>Total</th><th>Status</th></tr></thead>
+        <tbody>
+          {% for order in recent_orders %}
+          <tr>
+            <td><a href="{% url 'dashboard:order_detail' order.order_number %}">{{ order.order_number }}</a></td>
+            <td>{{ order.recipient }}</td>
+            <td>{{ order.total|npr }}</td>
+            <td><span class="order-status order-status-{{ order.status }}">{{ order.get_status_display }}</span></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p class="empty">No orders yet.</p>
+      {% endif %}
+    </section>
+
+    <section class="staff-card">
+      <div class="staff-card-head">
+        <h2>Low stock</h2>
+        <a href="{% url 'dashboard:inventory' %}?low=1">Inventory</a>
+      </div>
+      {% if low_stock %}
+      <ul class="lowstock-list">
+        {% for variant in low_stock %}
+        <li>
+          <span>{{ variant.product.name }} · {{ variant.size.name }} {{ variant.thickness_in }} in</span>
+          <span class="lowstock-left">{{ variant.stock_qty }} left</span>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="empty">Everything is well stocked.</p>
+      {% endif %}
+    </section>
+  </div>
+
+  <div class="staff-columns">
+    <section class="staff-card">
+      <h2>Orders per day</h2>
+      {% if orders_per_day %}
+      <div class="bar-chart" role="img" aria-label="Orders per day">
+        {% for day in orders_per_day %}
+        <div class="bar-col">
+          <span class="bar-value">{{ day.n }}</span>
+          <span class="bar" style="height: {{ day.height }}%"></span>
+          <span class="bar-label">{{ day.label }}</span>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <p class="empty">No orders in this period.</p>
+      {% endif %}
+    </section>
+
+    <section class="staff-card">
+      <h2>Sales by province</h2>
+      {% if sales_by_province %}
+      <ul class="hbar-list">
+        {% for province in sales_by_province %}
+        <li class="hbar-row">
+          <span class="hbar-name">{{ province.name }}</span>
+          <span class="hbar-track"><span class="hbar-fill" style="width: {{ province.width }}%"></span></span>
+          <span class="hbar-amount">{{ province.amount|npr }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="empty">No delivered sales in this period.</p>
+      {% endif %}
+    </section>
+  </div>
+</section>
+{% endblock %}

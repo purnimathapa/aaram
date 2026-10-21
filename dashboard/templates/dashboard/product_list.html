@@ -1,0 +1,31 @@
+{% extends "dashboard/base_staff.html" %}
+{% load core_extras %}
+{% block title %}Products · AARAM staff{% endblock %}
+
+{% block staff_content %}
+<section class="staff-page">
+  <div class="staff-page-head">
+    <h1>Products</h1>
+    <a class="btn btn-primary btn-small" href="{% url 'dashboard:product_new' %}">+ New product</a>
+  </div>
+
+  {% if products %}
+  <table class="staff-table">
+    <thead><tr><th>Name</th><th>Category</th><th>Variants</th><th>Active</th><th></th></tr></thead>
+    <tbody>
+      {% for product in products %}
+      <tr>
+        <td>{{ product.name }}</td>
+        <td>{{ product.category.name }}</td>
+        <td>{{ product.variants.count }}</td>
+        <td>{% if product.is_active %}Yes{% else %}<span class="order-status order-status-cancelled">Hidden</span>{% endif %}</td>
+        <td><a href="{% url 'dashboard:product_edit' product.pk %}">Edit</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="empty">No products yet. <a href="{% url 'dashboard:product_new' %}">Add the first one</a>.</p>
+  {% endif %}
+</section>
+{% endblock %}

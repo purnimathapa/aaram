@@ -13,11 +13,11 @@
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
-  {% include "partials/header.html" %}
+  {% block header %}{% include "partials/header.html" %}{% endblock %}
   <main id="main" class="container">
     {% include "partials/messages.html" %}
     {% block content %}{% endblock %}
   </main>
-  {% include "partials/footer.html" %}
+  {% block footer %}{% include "partials/footer.html" %}{% endblock %}
 </body>
 </html>

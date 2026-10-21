@@ -1,0 +1,27 @@
+{% extends "dashboard/base_staff.html" %}
+{% block title %}Customers · AARAM staff{% endblock %}
+
+{% block staff_content %}
+<section class="staff-page">
+  <h1>Customers</h1>
+
+  {% if customers %}
+  <table class="staff-table">
+    <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Orders</th><th>Joined</th></tr></thead>
+    <tbody>
+      {% for customer in customers %}
+      <tr>
+        <td>{{ customer.first_name }} {{ customer.last_name }}</td>
+        <td>{{ customer.email }}</td>
+        <td>{{ customer.phone|default:"—" }}</td>
+        <td>{{ customer.order_count }}</td>
+        <td>{{ customer.date_joined|date:"j M Y" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="empty">No customers yet.</p>
+  {% endif %}
+</section>
+{% endblock %}

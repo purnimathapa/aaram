@@ -1,0 +1,65 @@
+{% extends "dashboard/base_staff.html" %}
+{% block title %}{% if product %}Edit {{ product.name }}{% else %}New product{% endif %} · AARAM staff{% endblock %}
+
+{% block staff_content %}
+<section class="staff-page staff-form-page">
+  <p class="breadcrumb"><a href="{% url 'dashboard:product_list' %}">Products</a> / {% if product %}{{ product.name }}{% else %}New{% endif %}</p>
+  <h1>{% if product %}Edit product{% else %}New product{% endif %}</h1>
+
+  {# enctype is needed so product image files upload. #}
+  <form class="staff-form" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <fieldset class="checkout-block">
+      <legend>Details</legend>
+      {% for field in form %}
+      <div class="form-field">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}<p class="field-error">{{ field.errors|join:", " }}</p>{% endif %}
+      </div>
+      {% endfor %}
+    </fieldset>
+
+    <fieldset class="checkout-block">
+      <legend>Variants (size, thickness, price, stock)</legend>
+      <p class="form-hint">To remove a variant from sale, untick Active. Leave the blank row empty if you are not adding one.</p>
+      {{ variants.management_form }}
+      {% for subform in variants %}
+      <div class="formset-row">
+        {{ subform.id }}
+        {% for field in subform.visible_fields %}
+        <div class="form-field form-field-inline">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}<p class="field-error">{{ field.errors|join:", " }}</p>{% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </fieldset>
+
+    <fieldset class="checkout-block">
+      <legend>Images</legend>
+      {{ images.management_form }}
+      {% for subform in images %}
+      <div class="formset-row">
+        {{ subform.id }}
+        {% for field in subform.visible_fields %}
+        <div class="form-field form-field-inline">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}<p class="field-error">{{ field.errors|join:", " }}</p>{% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </fieldset>
+
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">Save product</button>
+      <a class="btn btn-secondary" href="{% url 'dashboard:product_list' %}">Cancel</a>
+    </div>
+  </form>
+</section>
+{% endblock %}
