@@ -6,9 +6,9 @@ from django.test import TestCase
 from django.urls import reverse
 
 from cart.models import CartItem
-from catalog.models import Category, Product, ProductVariant, Size
+from catalog.models import Category, Product, Size
 from orders import services
-from orders.models import Order, OrderStatus
+from orders.models import OrderStatus
 from orders.tests import make_world
 
 User = get_user_model()

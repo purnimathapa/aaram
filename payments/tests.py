@@ -5,7 +5,6 @@ our own rules: an order is Paid only on a Completed lookup for the right amount,
 a forged return URL does not mark it Paid, and unpaid orders expire.
 """
 from datetime import timedelta
-from decimal import Decimal
 from unittest.mock import patch
 
 from django.contrib.auth import get_user_model

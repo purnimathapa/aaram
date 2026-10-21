@@ -19,7 +19,7 @@ from accounts.models import User
 from catalog.models import Product, ProductVariant
 from core.models import StoreSettings
 from orders import services
-from orders.models import Order, OrderStatus, PaymentStatus
+from orders.models import Order, OrderStatus
 from reviews.models import Review
 
 from .forms import ImageFormSet, ProductForm, VariantFormSet

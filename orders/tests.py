@@ -19,7 +19,7 @@ from catalog.models import Category, Product, ProductVariant, Size
 from core.models import Province
 
 from . import services
-from .models import Order, OrderItem, OrderStatus
+from .models import Order, OrderStatus
 
 User = get_user_model()
 
@@ -251,7 +251,7 @@ class CheckoutViewTests(TestCase):
         self.assertEqual(order.status, OrderStatus.CANCELLED)
 
     def test_cannot_view_another_users_order(self):
-        other = User.objects.create_user(email="other@example.com", password="pass12345")
+        User.objects.create_user(email="other@example.com", password="pass12345")
         order = services.place_order(self.user, self.address, "", Decimal("29500.00"))
         self.client.login(email="other@example.com", password="pass12345")
         response = self.client.get(order.get_absolute_url())
