@@ -1,7 +1,7 @@
 """Tests for the catalogue: search, filters, sort, and hiding inactive items."""
 from django.test import TestCase
 from django.test.utils import CaptureQueriesContext
-from django.db import connection
+from django.db import IntegrityError, connection, transaction
 from django.urls import reverse
 
 from .models import Category, Product, ProductVariant, Size
@@ -128,3 +128,41 @@ class CatalogueTests(TestCase):
             self.client.get(reverse("catalog:catalogue"))
         # Listing many products must not run a query per product (no N+1).
         self.assertLessEqual(len(ctx.captured_queries), 8)
+
+
+class VariantConstraintTests(TestCase):
+    """The database itself must reject bad variant data."""
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.size = Size.objects.create(name="Queen", length_in=75, width_in=60, sort_order=1)
+        cls.category = Category.objects.create(name="Memory foam", slug="memory-foam")
+        cls.product = Product.objects.create(
+            category=cls.category, name="AARAM Nidra", slug="aaram-nidra",
+            description="Soft.", material="memory foam", firmness=2, warranty_months=60,
+        )
+        ProductVariant.objects.create(
+            product=cls.product, size=cls.size, thickness_in=6,
+            sku="AR-NID-Q6", price="29500.00", stock_qty=5,
+        )
+
+    def test_price_must_be_positive(self):
+        with self.assertRaises(IntegrityError), transaction.atomic():
+            ProductVariant.objects.create(
+                product=self.product, size=self.size, thickness_in=8,
+                sku="AR-NID-Q8", price="0.00", stock_qty=5,
+            )
+
+    def test_stock_cannot_be_negative(self):
+        with self.assertRaises(IntegrityError), transaction.atomic():
+            ProductVariant.objects.create(
+                product=self.product, size=self.size, thickness_in=10,
+                sku="AR-NID-Q10", price="30000.00", stock_qty=-1,
+            )
+
+    def test_sku_must_be_unique(self):
+        with self.assertRaises(IntegrityError), transaction.atomic():
+            ProductVariant.objects.create(
+                product=self.product, size=self.size, thickness_in=8,
+                sku="AR-NID-Q6", price="30000.00", stock_qty=5,  # duplicate SKU
+            )

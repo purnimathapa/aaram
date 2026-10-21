@@ -7,14 +7,14 @@
   <h1>Orders</h1>
 
   <form class="staff-filters" method="get">
-    <input type="search" name="q" value="{{ query }}" placeholder="Order number or customer">
-    <select name="status" data-autosubmit>
+    <input type="search" name="q" value="{{ query }}" placeholder="Order number or customer" aria-label="Search orders by number or customer">
+    <select name="status" data-autosubmit aria-label="Filter by status">
       <option value="">All statuses</option>
       {% for value, label in status_choices %}
       <option value="{{ value }}"{% if value == current_status %} selected{% endif %}>{{ label }}</option>
       {% endfor %}
     </select>
-    <select name="province" data-autosubmit>
+    <select name="province" data-autosubmit aria-label="Filter by province">
       <option value="">All provinces</option>
       {% for name in provinces %}
       <option value="{{ name }}"{% if name == current_province %} selected{% endif %}>{{ name }}</option>

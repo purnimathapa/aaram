@@ -1,5 +1,4 @@
 """Tests for reviews: eligibility, one per product, and hiding."""
-from decimal import Decimal
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase

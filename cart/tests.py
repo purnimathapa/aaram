@@ -1,5 +1,6 @@
 """Tests for the cart: access rules, stock and per-line limits, and merging."""
 from django.contrib.auth import get_user_model
+from django.db import IntegrityError, transaction
 from django.test import TestCase
 from django.urls import reverse
 
@@ -77,6 +78,13 @@ class CartAccessTests(CartTestBase):
         self.assertEqual(remove.status_code, 404)
         theirs.refresh_from_db()
         self.assertEqual(theirs.quantity, 1)
+
+
+class CartConstraintTests(CartTestBase):
+    def test_duplicate_cart_line_rejected_by_database(self):
+        CartItem.objects.create(user=self.user, variant=self.variant, quantity=1)
+        with self.assertRaises(IntegrityError), transaction.atomic():
+            CartItem.objects.create(user=self.user, variant=self.variant, quantity=1)
 
 
 class CartServiceTests(CartTestBase):
