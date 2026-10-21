@@ -72,3 +72,49 @@ Settings are split under `config/settings/`:
 - `prod.py` - production; serves static files with WhiteNoise.
 
 `manage.py` uses `dev` by default. In production, `config/wsgi.py` uses `prod`.
+
+## Deployment
+
+The app is deployed as a standard Django + PostgreSQL service. It is
+host-agnostic: it reads everything from environment variables and ships a
+`Procfile` (`release` runs migrations and `collectstatic`; `web` runs gunicorn).
+We host on **Railway** (managed PostgreSQL, no cold starts, outbound calls to
+Khalti and SMTP email both work, and a scheduled job for unpaid-order expiry);
+**Render** is an alternative (its free tier sleeps, expires the database after 30
+days and blocks SMTP, so use a paid instance for a real deployment).
+
+### Steps
+
+1. Push the repository to GitHub and create a web service from it on the host.
+2. Add a managed PostgreSQL database; the host provides `DATABASE_URL`.
+3. Set the environment variables (see `.env.example`). The important ones:
+   - `SECRET_KEY` - a long random value (not the dev one).
+   - `DEBUG=False`, `ALLOWED_HOSTS=<your-domain>`,
+     `CSRF_TRUSTED_ORIGINS=https://<your-domain>`.
+   - `DJANGO_SETTINGS_MODULE=config.settings.prod` (so the production settings,
+     with HTTPS hardening, are used).
+   - Email SMTP (`EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_HOST_USER`,
+     `EMAIL_HOST_PASSWORD`, `EMAIL_USE_TLS`, `DEFAULT_FROM_EMAIL`).
+   - `KHALTI_SECRET_KEY` (sandbox key) and `KHALTI_BASE_URL`.
+4. The `release` command migrates and collects static files automatically on
+   each deploy; WhiteNoise serves the static files.
+5. Create a superuser once (`python manage.py createsuperuser` in the host
+   shell) and load sample data if wanted (`python manage.py loaddata fixtures/*.json`).
+6. Schedule `python manage.py expire_unpaid_orders` (for example every 10
+   minutes) so abandoned Khalti orders release their stock.
+
+### Media (uploaded product images)
+
+Set the `AWS_*` variables to an S3-compatible bucket and media is stored there
+instead of the local disk. We use **Cloudflare R2** (free tier, no egress fees):
+set `AWS_STORAGE_BUCKET_NAME`, `AWS_S3_ACCESS_KEY_ID`, `AWS_S3_SECRET_ACCESS_KEY`,
+`AWS_S3_ENDPOINT_URL` (the R2 endpoint) and `AWS_S3_CUSTOM_DOMAIN` (the public
+media host). If these are left empty, media falls back to the local disk.
+
+### Checking the production settings
+
+```bash
+DJANGO_SETTINGS_MODULE=config.settings.prod python manage.py check --deploy
+```
+
+This should report no issues with a real `SECRET_KEY` set.

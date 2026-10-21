@@ -5,3 +5,7 @@ Pillow==11.3.0
 requests==2.32.3
 whitenoise==6.9.0
 gunicorn==23.0.0
+# Only used in production when an S3-compatible media bucket (e.g. Cloudflare R2)
+# is configured; harmless if unused.
+django-storages==1.14.4
+boto3==1.35.49
