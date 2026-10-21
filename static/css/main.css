@@ -1,6 +1,7 @@
 /* AARAM stylesheet. Sections: base, layout, buttons, header, hero, messages,
    footer, forms, catalogue, product detail, cart, checkout and orders, staff
-   dashboard. Tokens live in tokens.css. No framework, no inline styles. */
+   dashboard, reviews. Tokens live in tokens.css. No framework, no inline
+   styles. */
 
 /* ---------- Base ---------- */
 * {
@@ -2105,6 +2106,110 @@ img {
 
 .order-address {
   line-height: 1.6;
+}
+
+/* ---------- Reviews ---------- */
+.product-card-rating {
+  color: var(--warn);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.product-card-rating span {
+  color: var(--subtle);
+  font-weight: 400;
+}
+
+.product-reviews {
+  margin-top: var(--space-12);
+}
+
+.reviews-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.reviews-average {
+  color: var(--muted);
+  margin: 0;
+}
+
+.reviews-score {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.review-form {
+  max-width: 560px;
+  padding: var(--space-6);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  margin-bottom: var(--space-8);
+}
+
+.review-form h3 {
+  margin-top: 0;
+}
+
+.review-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.review {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: var(--space-4);
+}
+
+.review-top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.review-star {
+  color: var(--line-strong);
+}
+
+.review-star.on {
+  color: var(--warn);
+}
+
+.review-author {
+  font-weight: 600;
+}
+
+.review-date {
+  color: var(--subtle);
+  font-size: 0.85rem;
+}
+
+.review-title {
+  font-weight: 600;
+  margin: 0 0 var(--space-1);
+}
+
+.review-body {
+  margin: 0;
+  color: var(--muted);
+}
+
+.review-cell-body {
+  color: var(--muted);
+  font-size: 0.85rem;
 }
 
 /* ---------- Staff dashboard ---------- */

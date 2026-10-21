@@ -23,7 +23,7 @@ def home(request):
     popular = (
         Product.objects.filter(is_active=True)
         .select_related("category")
-        .prefetch_related(Prefetch("variants", queryset=active_variants))
+        .prefetch_related(Prefetch("variants", queryset=active_variants), "reviews")
         .annotate(min_price=Min("variants__price"))[:4]
     )
 
