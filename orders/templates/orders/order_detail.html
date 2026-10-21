@@ -70,7 +70,10 @@
       <section class="order-block">
         <h2>Payment</h2>
         <p>{{ order.get_payment_method_display }} · <strong>{{ order.get_payment_status_display }}</strong></p>
-        {% if order.payment_status == 'unpaid' %}
+        {% if order.payment_method == 'khalti' and order.payment_status == 'unpaid' and order.status == 'pending' %}
+        <p class="order-note">Your Khalti payment is not complete.</p>
+        <a class="btn btn-primary btn-small" href="{% url 'payments:start' order.order_number %}">Pay now with Khalti</a>
+        {% elif order.payment_method == 'cod' and order.payment_status == 'unpaid' %}
         <p class="order-note">Please keep {{ order.total|npr }} ready for the delivery person.</p>
         {% endif %}
       </section>

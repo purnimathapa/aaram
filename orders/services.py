@@ -31,7 +31,8 @@ class OrderError(Exception):
 
 
 @transaction.atomic
-def place_order(user, address, delivery_note, expected_subtotal):
+def place_order(user, address, delivery_note, expected_subtotal,
+                payment_method=PaymentMethod.COD):
     """Create an order from the user's cart and return it.
 
     Everything runs in one database transaction, so either the whole order is
@@ -101,6 +102,7 @@ def place_order(user, address, delivery_note, expected_subtotal):
         street_tole=address.street_tole,
         landmark=address.landmark,
         delivery_note=delivery_note,
+        payment_method=payment_method,
         subtotal=subtotal,
         delivery_charge=delivery_charge,
         total=total,

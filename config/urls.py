@@ -10,6 +10,7 @@ urlpatterns = [
     path("mattresses/", include("catalog.urls")),
     path("", include("reviews.urls")),
     path("cart/", include("cart.urls")),
+    path("payments/", include("payments.urls")),
     path("staff/", include("dashboard.urls")),
     path("", include("orders.urls")),
     path("", include("core.urls")),
