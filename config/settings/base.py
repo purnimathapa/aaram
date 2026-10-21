@@ -89,6 +89,10 @@ LOGOUT_REDIRECT_URL = "core:home"
 # (console in dev, SMTP in prod).
 DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="AARAM <noreply@aaram.com.np>")
 
+# Khalti ePayment (sandbox by default). The secret key comes from .env.
+KHALTI_BASE_URL = env("KHALTI_BASE_URL", default="https://dev.khalti.com/api/v2/")
+KHALTI_SECRET_KEY = env("KHALTI_SECRET_KEY", default="")
+
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "Asia/Kathmandu"
 USE_I18N = True
