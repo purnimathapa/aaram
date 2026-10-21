@@ -1,0 +1,46 @@
+{% extends "dashboard/base_staff.html" %}
+{% load core_extras %}
+{% block title %}Inventory · AARAM staff{% endblock %}
+
+{% block staff_content %}
+<section class="staff-page">
+  <div class="staff-page-head">
+    <h1>Inventory</h1>
+    <p class="inventory-filter">
+      {% if low_only %}
+      Showing sizes with {{ threshold }} or fewer left · <a href="{% url 'dashboard:inventory' %}">Show all</a>
+      {% else %}
+      <a href="{% url 'dashboard:inventory' %}?low=1">Show low stock only</a>
+      {% endif %}
+    </p>
+  </div>
+
+  {% if variants %}
+  <table class="staff-table">
+    <thead><tr><th>Product</th><th>Size</th><th>SKU</th><th>Price</th><th>Active</th><th>Stock</th><th></th></tr></thead>
+    <tbody>
+      {% for variant in variants %}
+      <tr>
+        <td>{{ variant.product.name }}</td>
+        <td>{{ variant.size.name }} · {{ variant.thickness_in }} in</td>
+        <td>{{ variant.sku }}</td>
+        <td>{{ variant.price|npr }}</td>
+        <td>{% if variant.is_active %}Yes{% else %}No{% endif %}</td>
+        <td class="{% if variant.stock_qty <= threshold %}stock-low{% endif %}">{{ variant.stock_qty }}</td>
+        <td>
+          <form class="stock-adjust" method="post" action="{% url 'dashboard:inventory_adjust' variant.pk %}">
+            {% csrf_token %}
+            <label class="visually-hidden" for="stock-{{ variant.pk }}">New stock for {{ variant.sku }}</label>
+            <input type="number" id="stock-{{ variant.pk }}" name="stock_qty" value="{{ variant.stock_qty }}" min="0">
+            <button class="btn btn-secondary btn-small" type="submit">Set</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="empty">No variants to show.</p>
+  {% endif %}
+</section>
+{% endblock %}

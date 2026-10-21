@@ -1,6 +1,6 @@
 /* AARAM stylesheet. Sections: base, layout, buttons, header, hero, messages,
-   footer, forms, catalogue, product detail, cart, checkout and orders. Tokens
-   live in tokens.css. No framework, no inline styles. */
+   footer, forms, catalogue, product detail, cart, checkout and orders, staff
+   dashboard. Tokens live in tokens.css. No framework, no inline styles. */
 
 /* ---------- Base ---------- */
 * {
@@ -2107,6 +2107,380 @@ img {
   line-height: 1.6;
 }
 
+/* ---------- Staff dashboard ---------- */
+.staff-header {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.staff-header-inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+  padding-top: var(--space-4);
+  padding-bottom: var(--space-4);
+}
+
+.staff-brand {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.staff-brand span {
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+.staff-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.staff-nav a {
+  color: #ffffff;
+  opacity: 0.85;
+  text-decoration: none;
+  font-weight: 600;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+}
+
+.staff-nav a:hover {
+  opacity: 1;
+  color: #ffffff;
+}
+
+.staff-nav a.active {
+  opacity: 1;
+  border-bottom-color: #ffffff;
+}
+
+.staff-page {
+  padding: var(--space-8) 0;
+}
+
+.staff-page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-6);
+}
+
+.staff-page h1 {
+  margin: 0;
+}
+
+/* KPI tiles. */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+.kpi-tile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-6);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+}
+
+.kpi-label {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.kpi-value {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.kpi-sub {
+  color: var(--subtle);
+  font-size: 0.85rem;
+}
+
+.staff-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.staff-card {
+  padding: var(--space-6);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+}
+
+.staff-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: var(--space-4);
+}
+
+.staff-card h2 {
+  margin: 0 0 var(--space-4);
+  font-size: 1.15rem;
+}
+
+.staff-card-head h2 {
+  margin: 0;
+}
+
+/* Tables. */
+.staff-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.staff-table th,
+.staff-table td {
+  text-align: left;
+  padding: var(--space-3);
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+.staff-table th {
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* Low-stock list and the two charts. */
+.lowstock-list,
+.history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.lowstock-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.lowstock-left {
+  color: var(--warn);
+  font-weight: 600;
+}
+
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-2);
+  height: 160px;
+  padding-top: var(--space-4);
+}
+
+.bar-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-1);
+  height: 100%;
+}
+
+.bar-value {
+  font-size: 0.75rem;
+  color: var(--subtle);
+}
+
+.bar {
+  width: 100%;
+  min-height: 2px;
+  background: var(--accent);
+  border-radius: 4px 4px 0 0;
+}
+
+.bar-label {
+  font-size: 0.7rem;
+  color: var(--subtle);
+}
+
+.hbar-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.hbar-row {
+  display: grid;
+  grid-template-columns: 110px 1fr auto;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.hbar-track {
+  background: var(--surface-2);
+  border-radius: var(--radius-pill);
+  height: 12px;
+  overflow: hidden;
+}
+
+.hbar-fill {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+
+.hbar-amount {
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+/* Filters, status actions and the product form. */
+.period-filter,
+.staff-filters {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.staff-filters input[type="search"],
+.staff-filters select,
+.period-filter select,
+.stock-adjust input,
+.cancel-form input {
+  min-height: 40px;
+  padding: 6px 10px;
+  border: 1.5px solid var(--line-strong);
+  border-radius: var(--radius-input);
+  font: inherit;
+}
+
+.status-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  align-items: flex-end;
+}
+
+.cancel-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.history-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--line);
+}
+
+.history-change {
+  font-weight: 600;
+}
+
+.history-meta,
+.history-note {
+  color: var(--subtle);
+  font-size: 0.85rem;
+}
+
+.staff-form .checkout-block {
+  margin-bottom: var(--space-6);
+}
+
+.form-field {
+  margin-bottom: var(--space-4);
+}
+
+.form-field label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: var(--space-1);
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid var(--line-strong);
+  border-radius: var(--radius-input);
+  font: inherit;
+}
+
+.formset-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-input);
+  margin-bottom: var(--space-3);
+}
+
+.form-field-inline {
+  margin-bottom: 0;
+}
+
+.form-field-inline input,
+.form-field-inline select {
+  width: auto;
+}
+
+.form-hint {
+  color: var(--subtle);
+  font-size: 0.85rem;
+  margin: 0 0 var(--space-3);
+}
+
+.field-error {
+  color: var(--bad);
+  font-size: 0.85rem;
+  margin: var(--space-1) 0 0;
+}
+
+.stock-adjust {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.stock-adjust input {
+  width: 80px;
+}
+
+.stock-low {
+  color: var(--bad);
+  font-weight: 700;
+}
+
+.inventory-filter {
+  margin: 0;
+  color: var(--muted);
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 640px) {
   .hero h1 {
@@ -2168,6 +2542,21 @@ img {
   .order-row-link {
     grid-template-columns: 1fr auto;
     row-gap: var(--space-2);
+  }
+
+  .kpi-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .staff-columns {
+    grid-template-columns: 1fr;
+  }
+
+  /* Let wide staff tables scroll sideways instead of breaking the layout. */
+  .staff-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
   }
 }
 

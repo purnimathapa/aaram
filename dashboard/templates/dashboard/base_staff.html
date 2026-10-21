@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+{% comment %}
+Staff pages share this shell: a staff header with links to each area, and no
+public footer. Each page sets `active` to highlight its link and fills
+`staff_content`.
+{% endcomment %}
+
+{% block header %}
+<header class="staff-header">
+  <div class="staff-header-inner container">
+    <a class="staff-brand" href="{% url 'dashboard:home' %}">AARAM <span>Staff</span></a>
+    <nav class="staff-nav" aria-label="Staff">
+      <a href="{% url 'dashboard:home' %}"{% if active == 'home' %} class="active"{% endif %}>Dashboard</a>
+      <a href="{% url 'dashboard:order_list' %}"{% if active == 'orders' %} class="active"{% endif %}>Orders</a>
+      <a href="{% url 'dashboard:product_list' %}"{% if active == 'products' %} class="active"{% endif %}>Products</a>
+      <a href="{% url 'dashboard:inventory' %}"{% if active == 'inventory' %} class="active"{% endif %}>Inventory</a>
+      <a href="{% url 'dashboard:customer_list' %}"{% if active == 'customers' %} class="active"{% endif %}>Customers</a>
+      <a href="{% url 'admin:index' %}">Store settings</a>
+      <a href="{% url 'core:home' %}">View shop</a>
+    </nav>
+  </div>
+</header>
+{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block content %}
+{% block staff_content %}{% endblock %}
+<script src="{% static 'js/staff.js' %}" defer></script>
+{% endblock %}

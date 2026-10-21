@@ -1,0 +1,46 @@
+{% extends "dashboard/base_staff.html" %}
+{% load core_extras %}
+{% block title %}Orders · AARAM staff{% endblock %}
+
+{% block staff_content %}
+<section class="staff-page">
+  <h1>Orders</h1>
+
+  <form class="staff-filters" method="get">
+    <input type="search" name="q" value="{{ query }}" placeholder="Order number or customer">
+    <select name="status" data-autosubmit>
+      <option value="">All statuses</option>
+      {% for value, label in status_choices %}
+      <option value="{{ value }}"{% if value == current_status %} selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+    <select name="province" data-autosubmit>
+      <option value="">All provinces</option>
+      {% for name in provinces %}
+      <option value="{{ name }}"{% if name == current_province %} selected{% endif %}>{{ name }}</option>
+      {% endfor %}
+    </select>
+    <button class="btn btn-secondary btn-small" type="submit">Search</button>
+  </form>
+
+  {% if orders %}
+  <table class="staff-table">
+    <thead><tr><th>Order</th><th>Customer</th><th>Province</th><th>Total</th><th>Payment</th><th>Status</th></tr></thead>
+    <tbody>
+      {% for order in orders %}
+      <tr>
+        <td><a href="{% url 'dashboard:order_detail' order.order_number %}">{{ order.order_number }}</a></td>
+        <td>{{ order.recipient }}</td>
+        <td>{{ order.province_name }}</td>
+        <td>{{ order.total|npr }}</td>
+        <td>{{ order.get_payment_status_display }}</td>
+        <td><span class="order-status order-status-{{ order.status }}">{{ order.get_status_display }}</span></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="empty">No orders match these filters.</p>
+  {% endif %}
+</section>
+{% endblock %}
