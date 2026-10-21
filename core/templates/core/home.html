@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load core_extras %}
+
+{% block title %}AARAM &mdash; mattresses made for Nepali homes{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero-text">
+    <div class="eyebrow">Made for Nepali homes</div>
+    <h1>Rest that feels like coming home.</h1>
+    <p class="hero-lead">AARAM mattresses come in every common Nepali bed size, with the price and stock of each size shown upfront. Order online and pay in cash when it reaches your door.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="{% url 'catalog:catalogue' %}">Shop mattresses</a>
+      <a class="btn btn-secondary" href="#sizes">Find your size</a>
+    </div>
+  </div>
+
+  <figure class="layer-illustration">
+    <div class="layer-stack">
+      <div class="layer-row"><div class="layer-bar layer-cover"></div><div class="layer-label">Quilted knit cover</div></div>
+      <div class="layer-row"><div class="layer-bar layer-comfort"></div><div class="layer-label">Memory foam comfort</div></div>
+      <div class="layer-row"><div class="layer-bar layer-core"></div><div class="layer-label">High-density support core</div></div>
+      <div class="layer-row"><div class="layer-bar layer-base"></div><div class="layer-label">Breathable base</div></div>
+    </div>
+    <figcaption class="layer-caption">Inside the AARAM Nidra memory foam mattress (illustration)</figcaption>
+  </figure>
+</section>
+
+<section class="trust-row" aria-label="Why AARAM">
+  <div class="trust-item">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"></rect><circle cx="12" cy="12" r="2.5"></circle><path d="M6 9h.01M18 15h.01"></path></svg>
+    <div><div class="trust-title">Cash on Delivery</div><div class="trust-text">Pay in cash when your mattress arrives, or pay online with Khalti.</div></div>
+  </div>
+  <div class="trust-item">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"></path><circle cx="7" cy="18" r="1.8"></circle><circle cx="17" cy="18" r="1.8"></circle></svg>
+    <div><div class="trust-title">All 7 provinces</div><div class="trust-text">See the delivery charge and time for your province before you order.</div></div>
+  </div>
+  <div class="trust-item">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17L17 3l4 4L7 21z"></path><path d="M7 13l2 2M10 10l2 2M13 7l2 2"></path></svg>
+    <div><div class="trust-title">Exact sizes</div><div class="trust-text">Every size listed in inches and centimetres, so it fits your bed.</div></div>
+  </div>
+  <div class="trust-item">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"></path><path d="M8.5 12l2.5 2.5 4.5-5"></path></svg>
+    <div><div class="trust-title">Warranty included</div><div class="trust-text">The warranty period is shown on every mattress page.</div></div>
+  </div>
+</section>
+
+{% if feel_categories %}
+<section class="home-section" aria-labelledby="feel-h">
+  <div class="section-head">
+    <h2 id="feel-h">Shop by feel</h2>
+    <span class="section-note">Firmness from 1 (soft) to 5 (firm)</span>
+  </div>
+  <div class="feel-grid">
+    {% for item in feel_categories %}
+    <a class="feel-card" href="{% url 'catalog:catalogue' %}?category={{ item.category.slug }}">
+      <span class="feel-name">{{ item.category.name }}</span>
+      <span class="feel-line">{{ item.category.tagline }}</span>
+      <span class="feel-dots" aria-label="Firmness {{ item.firmness }} of 5">
+        {% for n in "12345" %}
+        <span class="feel-dot{% if forloop.counter <= item.firmness %} feel-dot-on{% endif %}"></span>
+        {% endfor %}
+      </span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if popular %}
+<section class="home-section" aria-labelledby="popular-h">
+  <div class="section-head">
+    <h2 id="popular-h">Popular mattresses</h2>
+    <a class="section-link" href="{% url 'catalog:catalogue' %}">View all mattresses</a>
+  </div>
+  <div class="product-grid">
+    {% for product in popular %}
+    {% include "partials/product_card.html" %}
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<section class="size-section" id="sizes" aria-labelledby="sizes-h">
+  <div class="size-inner">
+    <div class="section-head-column">
+      <h2 id="sizes-h">Find your size</h2>
+      <p class="section-lead">Measure the inside of your bed frame, then pick the size that matches. Every AARAM mattress comes in these sizes, drawn here to scale.</p>
+    </div>
+    <div class="size-grid">
+      {% for size in sizes %}
+      <div class="size-card">
+        <div class="size-figure">
+          <div class="size-rect" style="width: calc({{ size.length_in }} * 2px); height: calc({{ size.width_in }} * 2px)"></div>
+        </div>
+        <div class="size-info">
+          <div class="size-name">{{ size.name }}</div>
+          <div class="size-inch">{{ size.length_in }} × {{ size.width_in }} in</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="home-section" id="how" aria-labelledby="how-h">
+  <h2 id="how-h">How ordering works</h2>
+  <ol class="steps">
+    <li class="step"><span class="step-num">1</span><span class="step-title">Choose mattress and size</span><span class="step-text">Compare feel, thickness and price for each size, with stock shown.</span></li>
+    <li class="step"><span class="step-num">2</span><span class="step-title">Place your order</span><span class="step-text">Choose Cash on Delivery or pay with Khalti. See your total, delivery included.</span></li>
+    <li class="step"><span class="step-num">3</span><span class="step-title">We confirm by phone</span><span class="step-text">Our team calls to confirm your address, then prepares your mattress.</span></li>
+    <li class="step"><span class="step-num">4</span><span class="step-title">Delivered to your door</span><span class="step-text">Follow every step in My orders, and pay the delivery person on arrival.</span></li>
+  </ol>
+</section>
+{% endblock %}

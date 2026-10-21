@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load core_extras static %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="{% url 'core:home' %}">Home</a> / <a href="{% url 'catalog:catalogue' %}">Mattresses</a> / {{ product.name }}
+</nav>
+
+<div class="product">
+  <section class="product-pictures" aria-label="Illustration">
+    <div class="product-illustration">
+      <div class="layer-cover"></div>
+      <div class="layer-comfort" style="background: {{ product.category.comfort_color }}"></div>
+      <div class="layer-core" id="illustration-core" style="background: {{ product.category.core_color }}; height: calc({{ selected.thickness_in }} * 9px)"></div>
+      <div class="layer-base"></div>
+    </div>
+    <p class="product-illustration-note">Layer illustration. Real photos are added when available.</p>
+  </section>
+
+  <section class="product-buy" aria-label="Choose and buy">
+    <div class="product-headings">
+      <span class="eyebrow">{{ product.category.name }}</span>
+      <h1 class="product-title">{{ product.name }}</h1>
+      <p class="product-desc">{{ product.description }}</p>
+    </div>
+
+    <div class="firmness">
+      <span class="firmness-label">Firmness</span>
+      <span class="firmness-bar" role="img" aria-label="Firmness {{ product.firmness }} of 5, {{ product.get_firmness_display }}">
+        {% for n in firmness_scale %}
+        <span class="firmness-dot{% if n <= product.firmness %} firmness-dot-on{% endif %}"></span>
+        {% endfor %}
+      </span>
+      <span class="firmness-word">{{ product.get_firmness_display }}</span>
+    </div>
+
+    {% if selected %}
+    <form class="variant-picker" method="get" action="" data-variants id="variant-form">
+      <fieldset class="variant-group">
+        <legend>Size <span class="variant-hint">· measure your bed frame first</span></legend>
+        <div class="chip-grid">
+          {% for size in sizes %}
+          <label class="chip chip-size">
+            <input type="radio" name="size" value="{{ size.id }}"{% if selected.size_id == size.id %} checked{% endif %}>
+            <span class="chip-body">
+              <span class="chip-name">{{ size.name }}</span>
+              <span class="chip-dims">{{ size.length_in }} × {{ size.width_in }} in</span>
+            </span>
+          </label>
+          {% endfor %}
+        </div>
+      </fieldset>
+
+      <fieldset class="variant-group">
+        <legend>Thickness</legend>
+        <div class="chip-row">
+          {% for thickness in thicknesses %}
+          <label class="chip chip-thickness">
+            <input type="radio" name="thickness" value="{{ thickness }}"{% if selected.thickness_in == thickness %} checked{% endif %}>
+            <span class="chip-body">{{ thickness }} inch</span>
+          </label>
+          {% endfor %}
+        </div>
+      </fieldset>
+
+      <div class="price-box">
+        <div class="price-main">
+          <div class="price-amount" id="variant-price">{{ selected.price|npr }}</div>
+          <div class="price-line" id="variant-line">{{ selected.size.name }} · {{ selected.size.length_in }} × {{ selected.size.width_in }} in · {{ selected.thickness_in }} in thick · SKU {{ selected.sku }}</div>
+        </div>
+        <span class="stock-pill stock-{{ selected_status_modifier }}" id="variant-status">{{ selected_status_text }}</span>
+      </div>
+
+      <noscript>
+        <button class="btn btn-secondary" type="submit">Show price for this size</button>
+      </noscript>
+    </form>
+    {% else %}
+    <p class="empty">This mattress has no sizes available right now.</p>
+    {% endif %}
+
+    {% if default_province %}
+    <div class="delivery-box" data-provinces>
+      <div class="delivery-head">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"></path><circle cx="7" cy="18" r="1.8"></circle><circle cx="17" cy="18" r="1.8"></circle></svg>
+        <label for="delivery-province">Deliver to</label>
+        <select id="delivery-province">
+          {% for province in provinces %}
+          <option value="{{ province.name }}"{% if province.id == default_province.id %} selected{% endif %}>{{ province.name }} Province</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="delivery-detail">Delivery charge <strong id="delivery-charge">{{ default_province.delivery_charge|npr }}</strong> · arrives in <strong id="delivery-days">{{ default_province.est_days_min }} to {{ default_province.est_days_max }} days</strong></div>
+      <div class="delivery-note">Pay in cash when it arrives, or pay online with Khalti at checkout.</div>
+    </div>
+    {% endif %}
+  </section>
+</div>
+
+<section class="product-specs" aria-labelledby="specs-h">
+  <div class="specs-intro">
+    <h2 id="specs-h">Details</h2>
+    <p>{{ product.description }}</p>
+  </div>
+  <dl class="specs-list">
+    <dt>Type</dt><dd>{{ product.category.name }}</dd>
+    <dt>Material</dt><dd>{{ product.material }}</dd>
+    <dt>Thickness</dt><dd>{% for thickness in thicknesses %}{{ thickness }} in{% if not forloop.last %} or {% endif %}{% endfor %}</dd>
+    <dt>Firmness</dt><dd>{{ product.get_firmness_display }}, {{ product.firmness }} of 5</dd>
+    <dt>Warranty</dt><dd>{{ product.warranty_months }} months against sagging and manufacturing faults</dd>
+  </dl>
+</section>
+
+<script id="variant-data" type="application/json">{{ variant_data_json|safe }}</script>
+<script id="province-data" type="application/json">{{ province_data_json|safe }}</script>
+<script src="{% static 'js/variant-picker.js' %}" defer></script>
+{% endblock %}
