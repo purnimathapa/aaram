@@ -16,7 +16,7 @@ from accounts.models import Address
 from cart.services import cart_lines
 
 from . import services
-from .models import Order, OrderStatus
+from .models import Order, OrderStatus, PaymentMethod
 
 
 # The normal forward steps, in order, with the words shown on the timeline.
@@ -82,14 +82,23 @@ def place(request):
     )
     expected_subtotal = _parse_decimal(request.POST.get("expected_subtotal"))
     delivery_note = request.POST.get("delivery_note", "").strip()
+    # Only the two methods we offer are accepted; anything else falls back to COD.
+    method = request.POST.get("payment_method")
+    if method != PaymentMethod.KHALTI:
+        method = PaymentMethod.COD
 
     try:
         order = services.place_order(
-            request.user, address, delivery_note, expected_subtotal
+            request.user, address, delivery_note, expected_subtotal,
+            payment_method=method,
         )
     except services.OrderError as error:
         messages.error(request, str(error))
         return redirect("orders:checkout")
+
+    # For Khalti, send the customer to pay; for COD, straight to confirmation.
+    if order.payment_method == PaymentMethod.KHALTI:
+        return redirect("payments:start", number=order.order_number)
 
     messages.success(request, "Your order has been placed.")
     return redirect("orders:confirmation", number=order.order_number)
